@@ -1,3 +1,6 @@
+/* Tipografías: Cormorant Garamond (títulos) y Poppins (texto) */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
+
 :root {
   --color-principal: #C77B31;
   --color-secundario: #503829;
@@ -5,4 +8,415 @@
   --color-acento: #6D2F3D;
   --color-fondo: #F4EFE6;
   --color-borde: #D9CBB8;
+}
+
+/* ==========================================================
+   MIAH - Nosotros
+   Los colores están en el bloque :root al inicio de este archivo
+   ========================================================== */
+
+/* ---------- Base ---------- */
+/* Reinicio: el ancho incluye padding y borde */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Desplazamiento suave al usar enlaces internos */
+html { scroll-behavior: smooth; }
+
+/* Estilo base: tipografía, color de texto y fondo (usa las variables) */
+body {
+  margin: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+}
+
+/* Imágenes fluidas: nunca se pasan del ancho de su contenedor */
+img { display: block; max-width: 100%; height: auto; }
+figure { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+a { color: inherit; }
+
+/* Títulos con tipografía serif */
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--color-secundario);
+  margin: 0 0 1rem;
+}
+h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); text-transform: uppercase; letter-spacing: .02em; }
+h1 span { display: block; }
+h2 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); }
+h3 { font-size: 1.6rem; }
+p { margin: 0 0 1rem; }
+
+/* Texto pequeño que va sobre los títulos */
+.eyebrow {
+  margin-bottom: .75rem;
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+}
+
+/* Frase destacada de la portada */
+.lead {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* ---------- Botones ---------- */
+/* Botón base con forma de píldora */
+.btn {
+  display: inline-block;
+  padding: .85rem 1.7rem;
+  border: 2px solid var(--color-principal);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+/* Variantes de color del botón */
+.btn-primary { background: var(--color-principal); color: var(--color-texto); }
+.btn-primary:hover { background: var(--color-secundario); border-color: var(--color-secundario); color: var(--color-fondo); }
+.btn-outline { background: transparent; color: var(--color-texto); }
+.btn-outline:hover { background: var(--color-principal); color: var(--color-texto); }
+/* Contorno visible al navegar con el teclado */
+.btn:focus-visible, a:focus-visible { outline: 3px solid var(--color-acento); outline-offset: 3px; }
+
+/* ---------- Encabezado y navegación ---------- */
+.site-header { background: var(--color-texto); }
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 2rem;
+}
+.logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: .12em;
+  color: var(--color-fondo);
+  text-decoration: none;
+}
+/* Logo con el eslogan debajo */
+.brand { display: flex; flex-direction: column; }
+.logo { line-height: 1; }
+.slogan {
+  margin-top: .3rem;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-borde);
+}
+/* Menú en fila; se envuelve si falta espacio */
+.nav-list { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; }
+.nav-list a {
+  display: inline-block;
+  padding: .35rem 0;
+  color: var(--color-fondo);
+  font-size: .95rem;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+/* Subrayado de color en el enlace activo y al pasar el mouse */
+.nav-list a:hover,
+.nav-list a[aria-current="page"] { border-bottom-color: var(--color-principal); }
+
+/* ---------- Contenedor común de secciones ---------- */
+.hero, .historia, .valores, .materiales, .compromiso {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem;
+}
+
+/* ---------- 1. Hero ---------- */
+/* Portada: texto y foto en dos columnas (una en móvil) */
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 1.5rem; }
+/* border-radius alto arriba = foto en forma de arco */
+.hero-figure img {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  border-radius: 200px 200px 16px 16px;
+  border: 8px solid var(--color-borde);
+}
+
+/* ---------- 2. Historia ---------- */
+/* Foto y texto en dos columnas */
+.historia {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+.historia-figure img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.historia-figure figcaption {
+  margin-top: .6rem;
+  font-size: .85rem;
+  color: var(--color-secundario);
+}
+.year {
+  display: inline-block;
+  padding: .3rem 1rem;
+  border-radius: 999px;
+  background: var(--color-acento);
+  color: var(--color-fondo);
+  font-size: .9rem;
+}
+
+/* ---------- 3. Valores ---------- */
+.valores { text-align: center; }
+.section-head { max-width: 640px; margin: 0 auto 2.5rem; }
+/* Cuadrícula de 4 columnas (2 en tablet, 1 en móvil) */
+.valores-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  text-align: left;
+}
+/* Tarjeta de valor con borde superior de color */
+.valor {
+  padding: 1.75rem 1.5rem;
+  background: var(--color-borde);
+  border-radius: 16px;
+  border-top: 6px solid var(--color-principal);
+}
+.valor h3 { margin-bottom: .6rem; }
+.valor p { margin: 0; font-size: .95rem; }
+
+/* ---------- 4. Materiales ---------- */
+.materiales {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+.materiales-lista { margin: 1.25rem 0 1.75rem; }
+/* Cada material con una línea lateral de color */
+.materiales-lista li {
+  padding: .8rem 0 .8rem 1.25rem;
+  border-left: 3px solid var(--color-principal);
+  border-bottom: 1px solid var(--color-borde);
+  margin-bottom: .25rem;
+  font-size: .95rem;
+}
+.materiales-lista strong { color: var(--color-acento); }
+.materiales-fotos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.materiales-fotos img {
+  width: 100%;
+  aspect-ratio: 3 / 5;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.materiales-fotos figcaption {
+  margin-top: .5rem;
+  text-align: center;
+  font-size: .85rem;
+  color: var(--color-secundario);
+}
+
+/* ---------- 5. Compromiso ---------- */
+.compromiso {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+.compromiso-figure img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* ---------- Efecto zoom en fotos ---------- */
+.zoom { overflow: hidden; border-radius: 16px; }
+.zoom img { border-radius: 0; transition: transform .5s ease; }
+/* Solo en dispositivos con mouse: zoom en fotos y tarjetas que se elevan */
+@media (hover: hover) {
+  .zoom:hover img { transform: scale(1.06); }
+  .valor { transition: transform .2s, box-shadow .2s; }
+  .valor:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(23, 21, 19, .15); }
+}
+
+/* ---------- 1b. Franja de cifras ---------- */
+.cifras { background: var(--color-acento); color: var(--color-fondo); }
+.cifras-lista {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
+  gap: 1.5rem;
+  text-align: center;
+}
+/* Divisor entre un dato y el siguiente */
+.cifras-lista li + li { border-left: 1px solid rgba(244, 239, 230, .3); }
+.cifras-lista strong {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+.cifras-lista span { font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--color-borde); }
+
+/* ---------- 3b. Proceso ---------- */
+.proceso { max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem 4.5rem; text-align: center; }
+.pasos {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pasos::before {                 /* línea punteada que une los círculos */
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  left: 16.6%;
+  right: 16.6%;
+  border-top: 2px dashed var(--color-principal);
+}
+.paso { position: relative; padding: 0 .5rem; }
+/* Círculo numerado de cada paso */
+.paso-num {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto 1.1rem;
+  border-radius: 50%;
+  background: var(--color-principal);
+  color: var(--color-texto);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  box-shadow: 0 0 0 8px var(--color-fondo);
+}
+.paso h3 { margin-bottom: .5rem; }
+.paso p { margin: 0 auto; max-width: 20rem; font-size: .95rem; }
+
+/* ---------- 4b. Frase destacada ---------- */
+.cita { background: var(--color-secundario); color: var(--color-fondo); padding: 5rem 1.5rem; }
+.cita blockquote { max-width: 860px; margin: 0 auto; text-align: center; }
+/* Comilla decorativa grande */
+.cita blockquote::before {
+  content: "\201C";
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 5rem;
+  line-height: .6;
+  color: var(--color-principal);
+}
+.cita p {
+  margin: 0 0 1rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 5.5vw, 3.8rem);
+  line-height: 1.15;
+}
+.cita footer { font-size: .8rem; letter-spacing: .25em; text-transform: uppercase; color: var(--color-principal); }
+
+/* ---------- Pie de página ---------- */
+.site-footer { background: var(--color-texto); color: var(--color-fondo); margin-top: 2rem; }
+/* Pie de página en 3 columnas (1 en móvil) */
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.4fr;
+  gap: 2rem;
+}
+.logo-footer {
+  margin: 0 0 .5rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: .12em;
+}
+.footer-brand p:last-child { margin: 0; font-size: .9rem; color: var(--color-borde); }
+.footer-links { display: grid; gap: .4rem; }
+.footer-links a, .footer-contact a { text-decoration: none; color: var(--color-fondo); }
+.footer-links a:hover, .footer-contact a:hover { color: var(--color-principal); }
+.footer-contact { display: grid; gap: .4rem; font-style: normal; font-size: .95rem; overflow-wrap: anywhere; }
+.copy {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--color-secundario);
+  font-size: .8rem;
+  color: var(--color-borde);
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+/* Tablet */
+@media (max-width: 1000px) {
+  .valores-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero, .historia, .materiales, .compromiso { gap: 2rem; }
+}
+
+/* Móvil: una sola columna */
+@media (max-width: 760px) {
+  .hero, .historia, .valores, .materiales, .compromiso { padding: 3rem 1.25rem; }
+
+  .hero,
+  .historia,
+  .materiales,
+  .compromiso { grid-template-columns: 1fr; }
+
+  /* la imagen del hero pasa arriba del texto */
+  .hero-figure { order: -1; }
+  .hero-figure img { height: 380px; border-radius: 140px 140px 16px 16px; }
+
+  .valores-grid { grid-template-columns: 1fr; }
+
+  /* proceso: pasos apilados, círculo a la izquierda */
+  .proceso { padding: 1rem 1.25rem 3rem; }
+  .pasos { grid-template-columns: 1fr; gap: 1.75rem; text-align: left; }
+  .pasos::before { top: 1.75rem; bottom: 1.75rem; left: 1.75rem; right: auto; border-top: 0; border-left: 2px dashed var(--color-principal); }
+  .paso { padding: 0 0 0 5rem; min-height: 3.5rem; }
+  .paso-num { position: absolute; left: 0; top: 0; margin: 0; }
+  .paso p { margin: 0; max-width: none; }
+
+  .cita { padding: 3.5rem 1.25rem; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .header-inner { justify-content: center; text-align: center; }
+  .brand { align-items: center; }
+  .nav-list { justify-content: center; }
+}
+
+/* Móvil pequeño */
+@media (max-width: 560px) {
+  .cifras-lista { grid-template-columns: 1fr; gap: 1.25rem; padding: 2rem 1.25rem; }
+  .cifras-lista li + li { border-left: 0; border-top: 1px solid rgba(244, 239, 230, .3); padding-top: 1.25rem; }
+}
+
+@media (max-width: 400px) {
+  .btn { width: 100%; text-align: center; }
 }
