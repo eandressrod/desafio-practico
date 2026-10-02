@@ -1,6 +1,6 @@
-/* Tipografías: Cormorant Garamond (títulos) y Poppins (texto) */
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
 
+/* Variables */
 :root {
   --color-principal: #C77B31;
   --color-secundario: #503829;
@@ -8,37 +8,47 @@
   --color-acento: #6D2F3D;
   --color-fondo: #F4EFE6;
   --color-borde: #D9CBB8;
+  --color-piedra: #DED8CE;
 }
 
-/* ==========================================================
-   MIAH - Inicio
-   Los colores están en el bloque :root al inicio de este archivo
-   ========================================================== */
+/* Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
-/* ---------- Base ---------- */
-/* Reinicio: el ancho incluye padding y borde */
-*, *::before, *::after { box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+}
 
-/* Desplazamiento suave al usar enlaces internos */
-html { scroll-behavior: smooth; }
-
-/* Estilo base: tipografía, color de texto y fondo (usa las variables) */
 body {
   margin: 0;
   font-family: 'Poppins', Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.7;
   color: var(--color-texto);
-  background: var(--color-fondo);
+  background: var(--color-piedra);
 }
 
-/* Imágenes fluidas: nunca se pasan del ancho de su contenedor */
-img { display: block; max-width: 100%; height: auto; }
-figure { margin: 0; }
-ul { margin: 0; padding: 0; list-style: none; }
-a { color: inherit; }
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 
-/* Títulos con tipografía serif */
+figure {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
 h1, h2, h3 {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-weight: 500;
@@ -46,13 +56,108 @@ h1, h2, h3 {
   color: var(--color-secundario);
   margin: 0 0 1rem;
 }
-h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); text-transform: uppercase; letter-spacing: .02em; }
-h1 span { display: block; }
-h2 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); }
-h3 { font-size: 1.6rem; }
-p { margin: 0 0 1rem; }
 
-/* Texto pequeño que va sobre los títulos */
+h1 {
+  font-size: clamp(2.6rem, 7vw, 4.6rem);
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+h1 span {
+  display: block;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+}
+
+h3 {
+  font-size: 1.6rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+figcaption {
+  margin-top: .6rem;
+  font-size: .85rem;
+  color: var(--color-secundario);
+}
+
+/* Encabezado */
+#encabezado {
+  background: var(--color-texto);
+}
+
+#barra {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 2rem;
+}
+
+#marca {
+  display: flex;
+  flex-direction: column;
+}
+
+#logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: .12em;
+  color: var(--color-fondo);
+  text-decoration: none;
+  line-height: 1;
+}
+
+#eslogan {
+  margin-top: .3rem;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-borde);
+}
+
+#menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.75rem;
+}
+
+#menu a {
+  display: inline-block;
+  padding: .35rem 0;
+  color: var(--color-fondo);
+  font-size: .95rem;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+#menu a:hover,
+#menu a[aria-current="page"] {
+  border-bottom-color: var(--color-principal);
+}
+
+/* Contenido */
+#presentacion, #seleccion, #historia {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem;
+}
+
+#presentacion, #historia {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+/* Presentación */
 .eyebrow {
   margin-bottom: .75rem;
   font-size: .8rem;
@@ -62,14 +167,18 @@ p { margin: 0 0 1rem; }
   color: var(--color-acento);
 }
 
-/* Frase destacada de la portada */
-.lead {
+#introduccion {
   font-weight: 600;
   font-size: 1.1rem;
 }
 
-/* ---------- Botones ---------- */
-/* Botón base con forma de píldora */
+#acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .85rem;
+  margin-top: 1.5rem;
+}
+
 .btn {
   display: inline-block;
   padding: .85rem 1.7rem;
@@ -80,111 +189,48 @@ p { margin: 0 0 1rem; }
   text-decoration: none;
   transition: background .2s, color .2s;
 }
-/* Variantes de color del botón */
-.btn-primary { background: var(--color-principal); color: var(--color-texto); }
-.btn-primary:hover { background: var(--color-secundario); border-color: var(--color-secundario); color: var(--color-fondo); }
-.btn-outline { background: transparent; color: var(--color-texto); }
-.btn-outline:hover { background: var(--color-principal); color: var(--color-texto); }
-/* Contorno visible al navegar con el teclado */
-.btn:focus-visible, a:focus-visible { outline: 3px solid var(--color-acento); outline-offset: 3px; }
 
-/* ---------- Encabezado y navegación ---------- */
-.site-header { background: var(--color-texto); }
-.header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .75rem 2rem;
+.btn-primary {
+  background: var(--color-principal);
+  color: var(--color-texto);
 }
-.logo {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
+
+.btn-primary:hover {
+  background: var(--color-secundario);
+  border-color: var(--color-secundario);
   color: var(--color-fondo);
-  text-decoration: none;
-}
-/* Logo con el eslogan debajo */
-.brand { display: flex; flex-direction: column; }
-.logo { line-height: 1; }
-.slogan {
-  margin-top: .3rem;
-  font-size: .62rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--color-borde);
-}
-/* Menú en fila; se envuelve si falta espacio */
-.nav-list { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; }
-.nav-list a {
-  display: inline-block;
-  padding: .35rem 0;
-  color: var(--color-fondo);
-  font-size: .95rem;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-}
-/* Subrayado de color en el enlace activo y al pasar el mouse */
-.nav-list a:hover,
-.nav-list a[aria-current="page"] { border-bottom-color: var(--color-principal); }
-
-/* ---------- Pie de página ---------- */
-.site-footer { background: var(--color-texto); color: var(--color-fondo); margin-top: 2rem; }
-/* Pie de página en 3 columnas (1 en móvil) */
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 2rem;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1.4fr;
-  gap: 2rem;
-}
-.logo-footer {
-  margin: 0 0 .5rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-}
-.footer-brand p:last-child { margin: 0; font-size: .9rem; color: var(--color-borde); }
-.footer-links { display: grid; gap: .4rem; }
-.footer-links a, .footer-contact a { text-decoration: none; color: var(--color-fondo); }
-.footer-links a:hover, .footer-contact a:hover { color: var(--color-principal); }
-.footer-contact { display: grid; gap: .4rem; font-style: normal; font-size: .95rem; overflow-wrap: anywhere; }
-.copy {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--color-secundario);
-  font-size: .8rem;
-  color: var(--color-borde);
 }
 
-/* Inicio: Grid distribuye las secciones; Flexbox organiza menú y botones. */
-.hero, .seleccion, .historia {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4.5rem 1.5rem;
+.btn-outline {
+  background: transparent;
+  color: var(--color-texto);
 }
-.hero, .historia {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 3rem;
-  align-items: center;
+
+.btn-outline:hover {
+  background: var(--color-principal);
+  color: var(--color-texto);
 }
-.hero-actions { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 1.5rem; }
-.hero-figure img {
+
+.btn:focus-visible, a:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+#presentacion figure img {
   width: 100%;
   height: 560px;
   object-fit: cover;
   border-radius: 200px 200px 16px 16px;
   border: 8px solid var(--color-borde);
 }
-figcaption { margin-top: .6rem; font-size: .85rem; color: var(--color-secundario); }
-.esencia { background: var(--color-secundario); color: var(--color-fondo); }
-.esencia-lista {
+
+/* Esencia */
+#esencia {
+  background: var(--color-secundario);
+  color: var(--color-fondo);
+}
+
+#esencia ul {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
@@ -193,46 +239,224 @@ figcaption { margin-top: .6rem; font-size: .85rem; color: var(--color-secundario
   text-align: center;
   gap: 1.5rem;
 }
-.esencia-lista li + li { border-left: 1px solid var(--color-borde); padding-left: 1.5rem; }
-.esencia-lista strong { display: block; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.8rem; font-weight: 500; }
-.esencia-lista span { font-size: .85rem; }
-.section-head { max-width: 640px; margin: 0 auto 2.5rem; text-align: center; }
-.productos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
-.producto { border: 1px solid var(--color-borde); border-radius: 16px; overflow: hidden; }
-.producto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-.producto-texto { padding: 1.5rem; }
-.producto-texto h3 { margin-bottom: .5rem; }
-.producto-texto p { margin: 0; font-size: .95rem; }
-.section-action { margin-top: 2rem; text-align: center; }
-.historia { border-top: 1px solid var(--color-borde); }
-.historia-figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 16px; }
-.invitacion { padding: 4rem 1.5rem; background: var(--color-borde); text-align: center; }
-.invitacion h2, .invitacion > p { max-width: 680px; margin-left: auto; margin-right: auto; }
-.site-footer { margin-top: 0; }
 
-/* En tablet, el pie se apila antes de que sus columnas queden estrechas. */
+#esencia ul li + li {
+  border-left: 1px solid var(--color-borde);
+  padding-left: 1.5rem;
+}
+
+#esencia ul strong {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+#esencia ul span {
+  font-size: .85rem;
+}
+
+/* Selección */
+#cabecera-seleccion {
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+#productos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.producto {
+  border: 1px solid var(--color-borde);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.producto img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.producto-texto {
+  padding: 1.5rem;
+}
+
+.producto-texto h3 {
+  margin-bottom: .5rem;
+}
+
+.producto-texto p {
+  margin: 0;
+  font-size: .95rem;
+}
+
+#ver-catalogo {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+/* Historia */
+#historia {
+  border-top: 1px solid var(--color-borde);
+}
+
+#historia figure img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* Contacto */
+#invitacion {
+  padding: 4rem 1.5rem;
+  background: var(--color-borde);
+  text-align: center;
+}
+
+#invitacion h2, #invitacion > p {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Pie de página */
+#pie {
+  background: var(--color-texto);
+  color: var(--color-fondo);
+  margin-top: 0;
+}
+
+#pie-interior {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.4fr;
+  gap: 2rem;
+}
+
+#logo-pie {
+  margin: 0 0 .5rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: .12em;
+}
+
+#marca-pie p:last-child {
+  margin: 0;
+  font-size: .9rem;
+  color: var(--color-borde);
+}
+
+#enlaces-pie {
+  display: grid;
+  gap: .4rem;
+}
+
+#enlaces-pie a, #contacto-pie a {
+  text-decoration: none;
+  color: var(--color-fondo);
+}
+
+#enlaces-pie a:hover, #contacto-pie a:hover {
+  color: var(--color-principal);
+}
+
+#contacto-pie {
+  display: grid;
+  gap: .4rem;
+  font-style: normal;
+  font-size: .95rem;
+  overflow-wrap: anywhere;
+}
+
+#derechos {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--color-secundario);
+  font-size: .8rem;
+  color: var(--color-borde);
+}
+
+/* Breakpoints */
 @media (max-width: 1000px) {
-  .hero, .historia { gap: 2rem; }
-  .footer-inner { grid-template-columns: 1fr; }
+  #presentacion, #historia {
+    gap: 2rem;
+  }
+
+  #pie-interior {
+    grid-template-columns: 1fr;
+  }
 }
+
 @media (max-width: 760px) {
-  .hero, .seleccion, .historia { padding: 3rem 1.25rem; }
-  .hero, .historia { grid-template-columns: 1fr; }
-  .hero-figure img { height: 380px; border-radius: 140px 140px 16px 16px; }
-  .productos-grid { grid-template-columns: 1fr; }
-  .producto img { aspect-ratio: 4 / 3; }
-  .header-inner { justify-content: center; text-align: center; }
-  .brand { align-items: center; }
-  .nav-list { justify-content: center; }
+  #barra {
+    justify-content: center;
+    text-align: center;
+  }
+
+  #marca {
+    align-items: center;
+  }
+
+  #menu {
+    justify-content: center;
+  }
+
+  #presentacion, #seleccion, #historia {
+    padding: 3rem 1.25rem;
+  }
+
+  #presentacion, #historia {
+    grid-template-columns: 1fr;
+  }
+
+  #presentacion figure img {
+    height: 380px;
+    border-radius: 140px 140px 16px 16px;
+  }
+
+  #productos {
+    grid-template-columns: 1fr;
+  }
+
+  .producto img {
+    aspect-ratio: 4 / 3;
+  }
 }
+
 @media (max-width: 560px) {
-  .esencia-lista { grid-template-columns: 1fr; padding: 2rem 1.25rem; }
-  .esencia-lista li + li { border-left: 0; border-top: 1px solid var(--color-borde); padding: 1.25rem 0 0; }
+  #esencia ul {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.25rem;
+  }
+
+  #esencia ul li + li {
+    border-left: 0;
+    border-top: 1px solid var(--color-borde);
+    padding: 1.25rem 0 0;
+  }
 }
+
 @media (max-width: 400px) {
-  .btn { width: 100%; text-align: center; }
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .btn { transition: none; }
+  html {
+    scroll-behavior: auto;
+  }
+
+  .btn {
+    transition: none;
+  }
 }
