@@ -85,6 +85,11 @@ figcaption {
   color: var(--color-secundario);
 }
 
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
 /* Encabezado */
 #encabezado {
   background: var(--color-texto);
@@ -143,7 +148,7 @@ figcaption {
   border-bottom-color: var(--color-principal);
 }
 
-/* Contenido */
+/* Presentación */
 #presentacion, #seleccion, #historia {
   max-width: 1200px;
   margin: 0 auto;
@@ -157,8 +162,7 @@ figcaption {
   align-items: center;
 }
 
-/* Presentación */
-.eyebrow {
+.sobretitulo {
   margin-bottom: .75rem;
   font-size: .8rem;
   font-weight: 500;
@@ -179,7 +183,7 @@ figcaption {
   margin-top: 1.5rem;
 }
 
-.btn {
+.boton {
   display: inline-block;
   padding: .85rem 1.7rem;
   border: 2px solid var(--color-principal);
@@ -190,30 +194,25 @@ figcaption {
   transition: background .2s, color .2s;
 }
 
-.btn-primary {
+.boton-principal {
   background: var(--color-principal);
   color: var(--color-texto);
 }
 
-.btn-primary:hover {
+.boton-principal:hover {
   background: var(--color-secundario);
   border-color: var(--color-secundario);
   color: var(--color-fondo);
 }
 
-.btn-outline {
+.boton-contorno {
   background: transparent;
   color: var(--color-texto);
 }
 
-.btn-outline:hover {
+.boton-contorno:hover {
   background: var(--color-principal);
   color: var(--color-texto);
-}
-
-.btn:focus-visible, a:focus-visible {
-  outline: 3px solid var(--color-acento);
-  outline-offset: 3px;
 }
 
 #presentacion figure img {
@@ -240,11 +239,6 @@ figcaption {
   gap: 1.5rem;
 }
 
-#esencia ul li + li {
-  border-left: 1px solid var(--color-borde);
-  padding-left: 1.5rem;
-}
-
 #esencia ul strong {
   display: block;
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -254,6 +248,11 @@ figcaption {
 
 #esencia ul span {
   font-size: .85rem;
+}
+
+#esencia ul li + li {
+  border-left: 1px solid var(--color-borde);
+  padding-left: 1.5rem;
 }
 
 /* Selección */
@@ -336,7 +335,7 @@ figcaption {
   margin: 0 auto;
   padding: 3rem 1.5rem 2rem;
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1.4fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 2rem;
 }
 
@@ -390,12 +389,12 @@ figcaption {
     gap: 2rem;
   }
 
-  #pie-interior {
-    grid-template-columns: 1fr;
+  #productos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   #barra {
     justify-content: center;
     text-align: center;
@@ -405,8 +404,18 @@ figcaption {
     align-items: center;
   }
 
+  #barra nav {
+    width: 100%;
+  }
+
   #menu {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .5rem;
+  }
+
+  #menu a {
+    font-size: .85rem;
   }
 
   #presentacion, #seleccion, #historia {
@@ -422,12 +431,12 @@ figcaption {
     border-radius: 140px 140px 16px 16px;
   }
 
-  #productos {
-    grid-template-columns: 1fr;
-  }
-
   .producto img {
     aspect-ratio: 4 / 3;
+  }
+
+  #pie-interior {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -442,10 +451,14 @@ figcaption {
     border-top: 1px solid var(--color-borde);
     padding: 1.25rem 0 0;
   }
+
+  #productos {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 400px) {
-  .btn {
+  .boton {
     width: 100%;
     text-align: center;
   }
@@ -456,7 +469,7 @@ figcaption {
     scroll-behavior: auto;
   }
 
-  .btn {
+  .boton {
     transition: none;
   }
 }

@@ -1,22 +1,25 @@
 <!doctype html>
 <html lang="es">
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nosotros | MIAH</title>
     <link rel="stylesheet" href="css/nosotros.css">
   </head>
+
   <body>
-    <!-- Encabezado: logo con eslogan y menú de navegación -->
-    <header class="site-header">
-      <div class="header-inner">
-        <div class="brand">
-          <a class="logo" href="index.html" aria-label="MIAH, ir al inicio">MIAH</a>
-          <span class="slogan">Recycled plastic and natural fibers</span>
+
+    <!-- Encabezado -->
+    <header id="encabezado">
+      <div id="barra">
+        <div id="marca">
+          <a href="index.html" aria-label="MIAH, ir al inicio" id="logo">MIAH</a>
+          <span id="eslogan">Recycled plastic and natural fibers</span>
         </div>
-        <!-- Menú; aria-current marca la página donde estás -->
+
         <nav aria-label="Navegación principal">
-          <ul class="nav-list">
+          <ul id="menu">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="catalogo.html">Catálogo</a></li>
             <li><a href="nosotros.html" aria-current="page">Nosotros</a></li>
@@ -26,66 +29,87 @@
       </div>
     </header>
 
-    <!-- Contenido principal de la página -->
-    <main>
+    <main id="contenido">
 
-      <!-- 1. PRESENTACIÓN -->
-      <section class="hero">
-        <div class="hero-text">
-          <p class="eyebrow">@miahandbagssv</p>
+      <!-- Presentación -->
+      <section id="presentacion">
+        <div id="texto-presentacion">
+          <p class="sobretitulo">@miahandbagssv</p>
           <h1>Acerca de <span>nosotros</span></h1>
-          <p class="lead">Donde la creatividad se encuentra con la sostenibilidad.</p>
-          <p>En MIAH, celebramos la belleza de crear con propósito. Somos una marca salvadoreña que diseña accesorios únicos, fusionando innovación, tradición y un firme compromiso con el medio ambiente. Cada pieza es elaborada a mano por talentosos artesanos y tejedores locales, utilizando fibras de plástico reciclado y materiales naturales.</p>
-          <!-- Botones que enlazan a las otras páginas -->
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="catalogo.html">Ver catálogo</a>
-            <a class="btn btn-outline" href="contacto.html">Contáctanos</a>
+          <p id="introduccion">Donde la creatividad se encuentra con la sostenibilidad.</p>
+          <p>
+            En MIAH, celebramos la belleza de crear con propósito. Somos una marca salvadoreña que diseña
+            accesorios únicos, fusionando innovación, tradición y un firme compromiso con el medio ambiente.
+            Cada pieza es elaborada a mano por talentosos artesanos y tejedores locales, utilizando fibras de
+            plástico reciclado y materiales naturales.
+          </p>
+          <div id="acciones">
+            <a class="boton boton-principal" href="catalogo.html">Ver catálogo</a>
+            <a class="boton boton-contorno" href="contacto.html">Contáctanos</a>
           </div>
         </div>
-        <!-- Foto principal; el CSS la recorta en forma de arco -->
-        <figure class="hero-figure">
+
+        <figure id="foto-presentacion">
           <img src="img/bolso-mini-mimbre-cuero.jpg" alt="Bolso pequeño de mimbre color borgoña con asa y solapa de cuero sobre una mesa blanca">
         </figure>
       </section>
 
-      <!-- 1b. CIFRAS -->
-      <section class="cifras" aria-label="MIAH en cifras">
-        <!-- Tres datos destacados en una franja de color -->
-        <ul class="cifras-lista">
-          <li><strong>2019</strong><span>Año de fundación</span></li>
-          <li><strong>4</strong><span>Tiendas donde encontrarnos</span></li>
-          <li><strong>Hecho a mano</strong><span>En El Salvador</span></li>
+      <!-- Cifras -->
+      <section aria-label="MIAH en cifras" id="cifras">
+        <ul id="datos-cifras">
+          <li>
+            <strong>2019</strong>
+            <span>Año de fundación</span>
+          </li>
+          <li>
+            <strong>4</strong>
+            <span>Tiendas donde encontrarnos</span>
+          </li>
+          <li>
+            <strong>Hecho a mano</strong>
+            <span>En El Salvador</span>
+          </li>
         </ul>
       </section>
 
-      <!-- 2. HISTORIA -->
-      <section class="historia" id="historia">
-        <figure class="historia-figure">
-          <!-- zoom: contenedor del efecto de acercamiento al pasar el mouse -->
-          <div class="zoom"><img src="img/fundadoras-madre-e-hija.jpg" alt="Madre e hija, fundadoras de MIAH, de pie junto a una exhibición de bolsos artesanales"></div>
+      <!-- Historia -->
+      <section id="historia">
+
+        <figure id="foto-historia">
+          <div class="zoom">
+            <img src="img/fundadoras-madre-e-hija.jpg" alt="Madre e hija, fundadoras de MIAH, de pie junto a una exhibición de bolsos artesanales">
+          </div>
           <figcaption>Madre e hija, fundadoras de MIAH.</figcaption>
         </figure>
-        <div class="historia-text">
-          <p class="eyebrow">Nuestra historia</p>
+        <div id="texto-historia">
+          <p class="sobretitulo">Nuestra historia</p>
           <h2>Un proyecto de madre e hija</h2>
-          <!-- Etiqueta con el año de fundación -->
-          <p class="year"><strong>2019</strong> · Año de fundación</p>
-          <p>Fundada en el 2019 por un dúo apasionado de madre e hija, MIAH nació del deseo de crear productos que no solo reflejen belleza sino que también defienden los valores de sostenibilidad y tradición.</p>
-          <p>Motivadas por la urgencia de crear un impacto positivo tanto en el medio ambiente como en la vida de los artesanos, MIAH se embarcó en un viaje para revivir y preservar las técnicas tradicionales de tejido.</p>
+          <p id="fundacion"><strong>2019</strong> · Año de fundación</p>
+          <p>
+            Fundada en el 2019 por un dúo apasionado de madre e hija, MIAH nació del deseo de crear productos
+            que no solo reflejen belleza sino que también defienden los valores de sostenibilidad y tradición.
+          </p>
+          <p>
+            Motivadas por la urgencia de crear un impacto positivo tanto en el medio ambiente como en la vida
+            de los artesanos, MIAH se embarcó en un viaje para revivir y preservar las técnicas tradicionales
+            de tejido.
+          </p>
         </div>
       </section>
 
-      <!-- 3. VALORES -->
-      <section class="valores" id="valores">
-        <div class="section-head">
-          <p class="eyebrow">Lo que nos mueve</p>
+      <!-- Valores -->
+      <section id="valores">
+        <div class="cabecera-seccion">
+          <p class="sobretitulo">Lo que nos mueve</p>
           <h2>Nuestros valores</h2>
         </div>
-        <!-- Tarjetas de valores; el CSS las acomoda en cuadrícula -->
-        <ul class="valores-grid">
+        <ul id="lista-valores">
           <li class="valor">
             <h3>Sostenibilidad</h3>
-            <p>Cada producto está diseñado conscientemente y producido meticulosamente, minimizando el desperdicio en cada paso.</p>
+            <p>
+              Cada producto está diseñado conscientemente y producido meticulosamente, minimizando el
+              desperdicio en cada paso.
+            </p>
           </li>
           <li class="valor">
             <h3>Tradición</h3>
@@ -97,19 +121,21 @@
           </li>
           <li class="valor">
             <h3>Impacto positivo</h3>
-            <p>Buscamos mejorar tanto el medio ambiente como la vida de los artesanos que hacen posible cada pieza.</p>
+            <p>
+              Buscamos mejorar tanto el medio ambiente como la vida de los artesanos que hacen posible cada
+              pieza.
+            </p>
           </li>
         </ul>
       </section>
 
-      <!-- 3b. PROCESO -->
-      <section class="proceso" id="proceso">
-        <div class="section-head">
-          <p class="eyebrow">Cómo lo hacemos</p>
+      <!-- Proceso -->
+      <section id="proceso">
+        <div class="cabecera-seccion">
+          <p class="sobretitulo">Cómo lo hacemos</p>
           <h2>Nuestro proceso</h2>
         </div>
-        <!-- Pasos numerados unidos por una línea punteada (CSS) -->
-        <ol class="pasos">
+        <ol id="pasos">
           <li class="paso">
             <span class="paso-num" aria-hidden="true">1</span>
             <h3>Fibras recicladas y naturales</h3>
@@ -128,83 +154,118 @@
         </ol>
       </section>
 
-      <!-- 4. MATERIALES -->
-      <section class="materiales" id="materiales">
-        <div class="materiales-text">
-          <p class="eyebrow">Materiales</p>
+      <!-- Materiales -->
+      <section id="materiales">
+        <div id="texto-materiales">
+          <p class="sobretitulo">Materiales</p>
           <h2>Fibras recicladas y materiales naturales</h2>
-          <p>Nuestras piezas combinan fibras de plástico reciclado con materiales naturales, siempre tejidas a mano:</p>
-          <!-- Lista de materiales por producto -->
-          <ul class="materiales-lista">
-            <li><strong>Plástico reciclado y cuero:</strong> bolso Eva, hecho a mano en El Salvador con fibras plásticas recicladas y cuero.</li>
-            <li><strong>Fibra reciclada y eco cuero:</strong> bolso Lupita, tejido a mano y disponible en diferentes colores.</li>
-            <li><strong>Mimbre y cuero genuino:</strong> bolso Paloma, con correa ajustable para llevarlo en la mano o al hombro.</li>
-            <li><strong>Tule de agua y cuero genuino:</strong> bolso Olivia, con correa ajustable.</li>
-            <li><strong>Mimbre, cuero y madera:</strong> bolsos bucket, con detalles elegantes y correa ajustable.</li>
+          <p>
+            Nuestras piezas combinan fibras de plástico reciclado con materiales naturales, siempre tejidas a
+            mano:
+          </p>
+          <ul id="lista-materiales">
+            <li>
+              <strong>Plástico reciclado y cuero:</strong>
+              bolso Eva, hecho a mano en El Salvador con fibras plásticas recicladas y cuero.
+            </li>
+            <li>
+              <strong>Fibra reciclada y eco cuero:</strong>
+              bolso Lupita, tejido a mano y disponible en diferentes colores.
+            </li>
+            <li>
+              <strong>Mimbre y cuero genuino:</strong>
+              bolso Paloma, con correa ajustable para llevarlo en la mano o al hombro.
+            </li>
+            <li>
+              <strong>Tule de agua y cuero genuino:</strong>
+              bolso Olivia, con correa ajustable.
+            </li>
+            <li>
+              <strong>Mimbre, cuero y madera:</strong>
+              bolsos bucket, con detalles elegantes y correa ajustable.
+            </li>
           </ul>
-          <a class="btn btn-primary" href="catalogo.html">Conoce las colecciones</a>
+          <a class="boton boton-principal" href="catalogo.html">Conoce las colecciones</a>
         </div>
-        <!-- Dos fotos lado a lado -->
-        <div class="materiales-fotos">
+        <div id="fotos-materiales">
+
           <figure>
-            <div class="zoom"><img src="img/bolso-eva-cherry-hombro.jpg" alt="Mujer con un bolso Eva color cherry de fibra plástica reciclada y asas de cuero al hombro"></div>
+            <div class="zoom">
+              <img src="img/bolso-eva-cherry-hombro.jpg" alt="Mujer con un bolso Eva color cherry de fibra plástica reciclada y asas de cuero al hombro">
+            </div>
             <figcaption>Bolso Eva</figcaption>
           </figure>
+
           <figure>
-            <div class="zoom"><img src="img/bolso-lupita-negro.jpg" alt="Bolso Lupita negro tejido a mano con solapa de eco cuero"></div>
+            <div class="zoom">
+              <img src="img/bolso-lupita-negro.jpg" alt="Bolso Lupita negro tejido a mano con solapa de eco cuero">
+            </div>
             <figcaption>Bolso Lupita</figcaption>
           </figure>
         </div>
       </section>
 
-      <!-- 4b. FRASE DESTACADA -->
-      <section class="cita">
-        <!-- Frase destacada tomada del catálogo -->
+      <!-- Cita -->
+      <section id="cita">
         <blockquote>
           <p>La belleza de crear con propósito.</p>
-          <footer>MIAH</footer>
+
+          <footer>
+            MIAH
+          </footer>
         </blockquote>
       </section>
 
-      <!-- 5. COMPROMISO -->
-      <section class="compromiso">
-        <figure class="compromiso-figure">
-          <div class="zoom"><img src="img/clientas-tienda-miah.jpg" alt="Clientas eligiendo bolsos MIAH en una exhibición de la marca"></div>
+      <!-- Compromiso -->
+      <section id="compromiso">
+
+        <figure id="foto-compromiso">
+          <div class="zoom">
+            <img src="img/clientas-tienda-miah.jpg" alt="Clientas eligiendo bolsos MIAH en una exhibición de la marca">
+          </div>
         </figure>
-        <div class="compromiso-text">
-          <p class="eyebrow">Compromiso</p>
+        <div id="texto-compromiso">
+          <p class="sobretitulo">Compromiso</p>
           <h2>Una huella positiva en el mundo que compartimos</h2>
-          <p>Nuestro compromiso de ser ambientalmente responsables se extiende a nuestras tiendas y clientes, mientras nos esforzamos por dejar una huella positiva en el mundo que compartimos.</p>
-          <p>Te invitamos a descubrir nuestra colección: accesorios que combinan arte, conciencia y la esencia vibrante de El Salvador. Sé parte de este viaje hacia un futuro más sostenible, lleno de creatividad y pasión.</p>
-          <a class="btn btn-primary" href="contacto.html">Escríbenos</a>
+          <p>
+            Nuestro compromiso de ser ambientalmente responsables se extiende a nuestras tiendas y clientes,
+            mientras nos esforzamos por dejar una huella positiva en el mundo que compartimos.
+          </p>
+          <p>
+            Te invitamos a descubrir nuestra colección: accesorios que combinan arte, conciencia y la esencia
+            vibrante de El Salvador. Sé parte de este viaje hacia un futuro más sostenible, lleno de
+            creatividad y pasión.
+          </p>
+          <a class="boton boton-principal" href="contacto.html">Escríbenos</a>
         </div>
       </section>
 
     </main>
 
-    <!-- Pie de página: marca, enlaces y datos de contacto -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <p class="logo-footer">MIAH</p>
+    <!-- Pie de página -->
+    <footer id="pie">
+      <div id="pie-interior">
+        <div id="marca-pie">
+          <p id="logo-pie">MIAH</p>
           <p>Recycled plastic and natural fibers. Accesorios artesanales hechos en El Salvador.</p>
         </div>
+
         <nav aria-label="Enlaces del pie de página">
-          <ul class="footer-links">
+          <ul id="enlaces-pie">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="catalogo.html">Catálogo</a></li>
             <li><a href="nosotros.html">Nosotros</a></li>
             <li><a href="contacto.html">Contacto</a></li>
           </ul>
         </nav>
-        <!-- tel: abre la llamada y mailto: abre el correo -->
-        <address class="footer-contact">
+        <address id="contacto-pie">
           <a href="mailto:miahandbagselsalvador@gmail.com">miahandbagselsalvador@gmail.com</a>
           <a href="tel:+50376826089">+503 7682 6089</a>
           <a href="https://www.instagram.com/miahandbagssv/" target="_blank" rel="noopener">@miahandbagssv</a>
         </address>
       </div>
-      <p class="copy">© MIAH · Mia Handbags SV</p>
+      <p id="derechos">© MIAH · Mia Handbags SV</p>
     </footer>
+
   </body>
 </html>

@@ -1,6 +1,6 @@
-/* Tipografías del encabezado y pie (las mismas de Contacto) */
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
 
+/* Variables */
 :root {
   --color-principal: #C77B31;
   --color-secundario: #503829;
@@ -10,9 +10,7 @@
   --color-borde: #D9CBB8;
 }
 
-/* ==========================================================================
-   Estilos Generales y Reset Básico
-   ========================================================================== */
+/* Base */
 * {
   margin: 0;
   padding: 0;
@@ -24,12 +22,6 @@ body {
   background-color: var(--color-fondo);
   color: var(--color-texto);
   line-height: 1.6;
-}
-
-.contenedor {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 a {
@@ -48,19 +40,20 @@ img {
   display: block;
 }
 
-/* Contorno visible al navegar con el teclado */
-a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px; }
+a:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 3px;
+}
 
-/* ==========================================================================
-   Encabezado y navegación (mismo estilo que Contacto)
-   ========================================================================== */
-.site-header {
+/* Encabezado */
+#encabezado {
   font-family: 'Poppins', Arial, sans-serif;
   line-height: 1.7;
   background: var(--color-texto);
   border-bottom: 1px solid var(--color-secundario);
 }
-.header-inner {
+
+#barra {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem 1.5rem;
@@ -70,7 +63,13 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   flex-wrap: wrap;
   gap: .75rem 2rem;
 }
-.logo {
+
+#marca {
+  display: flex;
+  flex-direction: column;
+}
+
+#logo {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 2rem;
   letter-spacing: .12em;
@@ -78,18 +77,22 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   text-decoration: none;
   line-height: 1;
 }
-/* Logo con el eslogan debajo */
-.brand { display: flex; flex-direction: column; }
-.slogan {
+
+#eslogan {
   margin-top: .3rem;
   font-size: .62rem;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--color-borde);
 }
-/* Menú en fila; se envuelve si falta espacio */
-.nav-list { display: flex; flex-wrap: wrap; gap: .25rem 1.75rem; }
-.nav-list a {
+
+#menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.75rem;
+}
+
+#menu a {
   display: inline-block;
   padding: .35rem 0;
   color: var(--color-fondo);
@@ -97,14 +100,14 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   text-decoration: none;
   border-bottom: 2px solid transparent;
 }
-/* Subrayado de color en el enlace activo y al pasar el mouse */
-.nav-list a:hover,
-.nav-list a[aria-current="page"] { border-bottom-color: var(--color-principal); }
 
-/* ==========================================================================
-   Banner del Catálogo
-   ========================================================================== */
-.banner-catalogo {
+#menu a:hover,
+#menu a[aria-current="page"] {
+  border-bottom-color: var(--color-principal);
+}
+
+/* Presentación */
+#presentacion {
   background-color: var(--color-secundario);
   color: var(--color-fondo);
   text-align: center;
@@ -112,27 +115,31 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   margin-bottom: 2.5rem;
 }
 
-.banner-catalogo h2 {
+.contenedor {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#presentacion h1 {
   font-size: 2.2rem;
   margin-bottom: 0.8rem;
   color: var(--color-borde);
 }
 
-.banner-catalogo p {
+#presentacion p {
   max-width: 700px;
   margin: 0 auto;
   font-size: 1.05rem;
   color: var(--color-fondo);
 }
 
-/* ==========================================================================
-   Grid de Productos (Maquetación Principal)
-   ========================================================================== */
-.seccion-productos {
+/* Productos */
+#catalogo {
   padding-bottom: 4rem;
 }
 
-.titulo-seccion {
+#titulo-productos {
   font-size: 1.6rem;
   color: var(--color-secundario);
   margin-bottom: 2rem;
@@ -140,15 +147,12 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   padding-bottom: 0.5rem;
 }
 
-.grid-productos {
+#productos {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
 }
 
-/* ==========================================================================
-   Tarjeta de Producto
-   ========================================================================== */
 .tarjeta-producto {
   background-color: #ffffff;
   border: 1px solid var(--color-borde);
@@ -186,7 +190,7 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   margin-bottom: 0.4rem;
 }
 
-.info-producto h4 {
+.info-producto h3 {
   font-size: 1.3rem;
   color: var(--color-secundario);
   margin-bottom: 0.6rem;
@@ -216,7 +220,6 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   margin-bottom: 0;
 }
 
-/* Botón de Acción Principal */
 .boton-accion {
   display: block;
   text-align: center;
@@ -233,31 +236,30 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   background-color: var(--color-secundario);
 }
 
-/* Tarjeta CTA Promocional */
-.tarjeta-cta {
+#pedido-personalizado {
   background-color: var(--color-secundario);
   color: var(--color-fondo);
   border: none;
   justify-content: center;
 }
 
-.info-cta {
+#texto-pedido {
   text-align: center;
   justify-content: center;
   align-items: center;
 }
 
-.info-cta h4 {
+#texto-pedido h3 {
   color: var(--color-borde);
   font-size: 1.4rem;
 }
 
-.info-cta p {
+#texto-pedido p {
   color: var(--color-fondo);
   margin: 1rem 0 1.5rem 0;
 }
 
-.boton-secundario {
+#contacto-personalizado {
   display: inline-block;
   background-color: var(--color-acento);
   color: #ffffff;
@@ -268,40 +270,63 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   transition: background-color 0.3s ease;
 }
 
-.boton-secundario:hover {
+#contacto-personalizado:hover {
   background-color: var(--color-principal);
 }
 
-/* ==========================================================================
-   Pie de página (mismo estilo que Contacto)
-   ========================================================================== */
-.site-footer {
+/* Pie de página */
+#pie {
   font-family: 'Poppins', Arial, sans-serif;
   line-height: 1.7;
   background: var(--color-texto);
   color: var(--color-fondo);
 }
-/* 3 columnas (1 en móvil) */
-.footer-inner {
+
+#pie-interior {
   max-width: 1200px;
   margin: 0 auto;
   padding: 3rem 1.5rem 2rem;
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1.4fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr);
   gap: 2rem;
 }
-.logo-footer {
+
+#logo-pie {
   margin: 0 0 .5rem;
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 2rem;
   letter-spacing: .12em;
 }
-.footer-brand p:last-child { margin: 0; font-size: .9rem; color: var(--color-borde); }
-.footer-links { display: grid; gap: .4rem; }
-.footer-links a, .footer-contact a { text-decoration: none; color: var(--color-fondo); }
-.footer-links a:hover, .footer-contact a:hover { color: var(--color-principal); }
-.footer-contact { display: grid; gap: .4rem; font-style: normal; font-size: .95rem; overflow-wrap: anywhere; }
-.copy {
+
+#marca-pie p:last-child {
+  margin: 0;
+  font-size: .9rem;
+  color: var(--color-borde);
+}
+
+#enlaces-pie {
+  display: grid;
+  gap: .4rem;
+}
+
+#enlaces-pie a, #contacto-pie a {
+  text-decoration: none;
+  color: var(--color-fondo);
+}
+
+#enlaces-pie a:hover, #contacto-pie a:hover {
+  color: var(--color-principal);
+}
+
+#contacto-pie {
+  display: grid;
+  gap: .4rem;
+  font-style: normal;
+  font-size: .95rem;
+  overflow-wrap: anywhere;
+}
+
+#derechos {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem 1.5rem 1.5rem;
@@ -310,28 +335,48 @@ a:focus-visible { outline: 3px solid var(--color-principal); outline-offset: 3px
   color: var(--color-borde);
 }
 
-/* ==========================================================================
-   Adaptación Móvil y Responsiva (Breakpoint)
-   ========================================================================== */
-@media (max-width: 868px) {
-  .grid-productos {
+/* Breakpoints */
+@media (max-width: 1000px) {
+  #productos {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 760px) {
-  .footer-inner { grid-template-columns: 1fr; }
-  .header-inner { justify-content: center; text-align: center; }
-  .brand { align-items: center; }
-  .nav-list { justify-content: center; }
+@media (max-width: 900px) {
+  #barra {
+    justify-content: center;
+    text-align: center;
+  }
+
+  #marca {
+    align-items: center;
+  }
+
+  #barra nav {
+    width: 100%;
+  }
+
+  #menu {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .5rem;
+  }
+
+  #menu a {
+    font-size: .85rem;
+  }
+
+  #pie-interior {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 580px) {
-  .grid-productos {
-    grid-template-columns: 1fr;
+  #presentacion h1 {
+    font-size: 1.7rem;
   }
 
-  .banner-catalogo h2 {
-    font-size: 1.7rem;
+  #productos {
+    grid-template-columns: 1fr;
   }
 }
