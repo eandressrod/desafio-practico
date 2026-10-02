@@ -1,11 +1,184 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Catálogo | MIAH</title>
-    <link rel="stylesheet" href="css/catalogo.css">
-  </head>
-  <body>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo | MIAH - Accesorios Sostenibles</title>
+  <link rel="stylesheet" href="css/catalogo.css">
+</head>
+<body>
+
+  <!-- Encabezado: logo con eslogan y menú de navegación (igual que Contacto) -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a class="logo" href="index.html" aria-label="MIAH, ir al inicio">MIAH</a>
+        <span class="slogan">Recycled plastic and natural fibers</span>
+      </div>
+      <!-- aria-current marca la página donde estás -->
+      <nav aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html" aria-current="page">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Banner de Presentación del Catálogo -->
+  <section class="banner-catalogo">
+    <div class="contenedor">
+      <h2>Nuestra Colección</h2>
+      <p>Piezas únicas elaboradas a mano por talentosos artesanos salvadoreños, fusionando plástico reciclado y fibras naturales con elegancia y propósito.</p>
+    </div>
+  </section>
+
+  <!-- Sección de Productos Principales -->
+  <main class="contenedor seccion-productos">
+    <h3 class="titulo-seccion">Catálogo de Productos</h3>
+    
+    <div class="grid-productos">
+      
+      <!-- Producto 1: Bolso Eva Cherry -->
+      <article class="tarjeta-producto">
+        <div class="imagen-contenedor">
+          <img src="img/bolso-eva-cherry-hombro.jpg" alt="Bolso Eva Cherry al hombro elaborado con fibras de plástico reciclado y cuero">
+        </div>
+        <div class="info-producto">
+          <span class="etiqueta-categoria">Línea Eva</span>
+          <h4>Bolso Eva</h4>
+          <p class="descripcion">
+            Versátil y espacioso, hecho a mano en El Salvador con fibras plásticas recicladas y cuero. Incluye asas largas para hombro y correa ajustable. Forrado internamente con bolsillo pequeño.
+          </p>
+          <ul class="detalles-tecnicos">
+            <li><strong>Base:</strong> 12" x 7"</li>
+            <li><strong>Altura:</strong> 12"/21,5" (sin asas/con asas)</li>
+            <li><strong>Materiales:</strong> Plástico reciclado y cuero</li>
+          </ul>
+          <a href="contacto.html" class="boton-accion">Consultar Disponibilidad</a>
+        </div>
+      </article>
+
+      <!-- Producto 2: Bolso Olivia Clásica -->
+      <article class="tarjeta-producto">
+        <div class="imagen-contenedor">
+          <img src="img/bolso-olivia-clasica.jpg" alt="Bolso Olivia Clásica en tule de agua y cuero genuino">
+        </div>
+        <div class="info-producto">
+          <span class="etiqueta-categoria">Fibras Naturales</span>
+          <h4>Bolso Olivia Clásica</h4>
+          <p class="descripcion">
+            Elaborado cuidadosamente en tule de agua y detalles en cuero genuino. Su correa ajustable permite llevarlo cómodamente en la mano o al hombro.
+          </p>
+          <ul class="detalles-tecnicos">
+            <li><strong>Medidas:</strong> Sin definir</li>
+            <li><strong>Variantes:</strong> Clásica y Mini</li>
+            <li><strong>Materiales:</strong> Tule de agua y cuero genuino</li>
+          </ul>
+          <a href="contacto.html" class="boton-accion">Consultar Disponibilidad</a>
+        </div>
+      </article>
+
+      <!-- Producto 3: Bolso Lupita Negro -->
+      <article class="tarjeta-producto">
+        <div class="imagen-contenedor">
+          <img src="img/bolso-lupita-negro.jpg" alt="Bolso Lupita Negro tejido a mano con fibra de plástico reciclado y eco cuero">
+        </div>
+        <div class="info-producto">
+          <span class="etiqueta-categoria">Línea Lupita</span>
+          <h4>Bolso Lupita</h4>
+          <p class="descripcion">
+            Tejido a mano con fibra de plástico reciclado y finos detalles en eco cuero. Incluye una correa ajustable que le otorga máxima versatilidad para cualquier ocasión.
+          </p>
+          <ul class="detalles-tecnicos">
+            <li><strong>Medidas:</strong> Sin definir</li>
+            <li><strong>Variantes:</strong> Clásica y Mini</li>
+            <li><strong>Materiales:</strong> Plástico reciclado y eco cuero</li>
+          </ul>
+          <a href="contacto.html" class="boton-accion">Consultar Disponibilidad</a>
+        </div>
+      </article>
+
+      <!-- Producto 4: Bolso Bucket Isabela -->
+      <article class="tarjeta-producto">
+        <div class="imagen-contenedor">
+          <img src="img/bolso-bucket-isabela.jpg" alt="Bolso Bucket Isabela en mimbre con detalles en cuero y madera">
+        </div>
+        <div class="info-producto">
+          <span class="etiqueta-categoria">Bucket Bags</span>
+          <h4>Bolso Isabela</h4>
+          <p class="descripcion">
+            Combina tradición y diseño en una pieza única elaborada en mimbre, enriquecida con elegantes detalles en cuero y madera. Incluye correa ajustable para mayor estilo.
+          </p>
+          <ul class="detalles-tecnicos">
+            <li><strong>Medidas:</strong> Sin definir</li>
+            <li><strong>Variantes:</strong> Isabella y Rachel</li>
+            <li><strong>Materiales:</strong> Mimbre, cuero y madera</li>
+          </ul>
+          <a href="contacto.html" class="boton-accion">Consultar Disponibilidad</a>
+        </div>
+      </article>
+
+      <!-- Producto 5: Bolso Mini Mimbre Cuero (Paloma Mini) -->
+      <article class="tarjeta-producto">
+        <div class="imagen-contenedor">
+          <img src="img/bolso-mini-mimbre-cuero.jpg" alt="Bolso Paloma Mini tejido en mimbre y cuero genuino">
+        </div>
+        <div class="info-producto">
+          <span class="etiqueta-categoria">Línea Paloma</span>
+          <h4>Bolso Paloma</h4>
+          <p class="descripcion">
+            Una combinación perfecta de arte, funcionalidad y encanto atemporal. Elaborado en mimbre artesanal y cuero genuino con correa ajustable.
+          </p>
+          <ul class="detalles-tecnicos">
+            <li><strong>Medidas:</strong> Sin definir</li>
+            <li><strong>Variantes:</strong> Clasica y Mini</li>
+            <li><strong>Materiales:</strong> Mimbre y cuero genuino</li>
+          </ul>
+          <a href="contacto.html" class="boton-accion">Consultar Disponibilidad</a>
+        </div>
+      </article>
+
+      <!-- Tarjeta Informativa / CTA -->
+      <article class="tarjeta-producto tarjeta-cta">
+        <div class="info-producto info-cta">
+          <h4>¿Buscas un diseño o color personalizado?</h4>
+          <p>
+            En MIAH creamos cada pieza con atención al detalle. Ponte en contacto con nosotros para conocer más colores disponibles, tamaños especiales o realizar tu pedido directamente.
+          </p>
+          <a href="contacto.html" class="boton-secundario">Ir a Contacto</a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Pie de página: marca, enlaces y datos de contacto (igual que Contacto) -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <p class="logo-footer">MIAH</p>
+        <p>Recycled plastic and natural fibers. Accesorios artesanales hechos en El Salvador.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <ul class="footer-links">
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="nosotros.html">Nosotros</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </nav>
+      <!-- tel: abre la llamada y mailto: abre el correo -->
+      <address class="footer-contact">
+        <a href="mailto:miahandbagselsalvador@gmail.com">miahandbagselsalvador@gmail.com</a>
+        <a href="tel:+50376826089">+503 7682 6089</a>
+        <a href="https://www.instagram.com/miahandbagssv/" target="_blank" rel="noopener">@miahandbagssv</a>
+      </address>
+    </div>
+    <p class="copy">© MIAH · Mia Handbags SV</p>
+  </footer>
+
+</body>
 </html>
