@@ -1,0 +1,14 @@
+# Archivos del editor y temporales
+.idea/
+.vscode/
+tmp/
+
+# Firebase CLI
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

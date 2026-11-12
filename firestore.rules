@@ -1,0 +1,145 @@
+rules_version = '2';
+
+// Reglas de seguridad de MIAH.
+// Se evalúan en los servidores de Firebase: aunque alguien esconda o salte la
+// interfaz, cualquier lectura o escritura que no cumpla estas reglas se rechaza.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- Funciones de apoyo ----------
+
+    function autenticado() {
+      return request.auth != null;
+    }
+
+    // El rol se lee del documento usuarios/{uid}, que el usuario no puede modificar.
+    function esAdmin() {
+      return autenticado()
+        && get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.rol == 'admin';
+    }
+
+    function textoEntre(valor, minimo, maximo) {
+      return valor is string && valor.size() >= minimo && valor.size() <= maximo;
+    }
+
+    // ---------- usuarios/{uid} ----------
+    // Cada cuenta tiene un documento con su nombre, correo y rol.
+    match /usuarios/{uid} {
+      allow read: if autenticado() && (request.auth.uid == uid || esAdmin());
+
+      // Al registrarse solo se puede crear el propio documento y SIEMPRE como cliente.
+      // Así nadie puede volverse administrador por su cuenta.
+      allow create: if autenticado()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['nombre', 'correo', 'rol', 'creadoEn'])
+        && textoEntre(request.resource.data.nombre, 2, 60)
+        && request.resource.data.correo == request.auth.token.email
+        && request.resource.data.rol == 'cliente'
+        && request.resource.data.creadoEn == request.time;
+
+      // El usuario solo puede cambiar su nombre; el rol queda fuera de su alcance.
+      allow update: if autenticado()
+        && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre'])
+        && textoEntre(request.resource.data.nombre, 2, 60);
+
+      allow delete: if false;
+    }
+
+    // ---------- productos/{id} ----------
+    function productoValido(p) {
+      return p.keys().hasOnly(['nombre', 'linea', 'descripcion', 'materiales', 'variantes',
+                               'precio', 'stock', 'imagen', 'activo', 'creadoEn', 'actualizadoEn'])
+        && textoEntre(p.nombre, 3, 60)
+        && textoEntre(p.linea, 1, 40)
+        && textoEntre(p.descripcion, 0, 400)
+        && textoEntre(p.materiales, 1, 120)
+        && p.variantes is list
+        && p.precio is number && p.precio > 0
+        && p.stock is int && p.stock >= 0
+        && textoEntre(p.imagen, 1, 200)
+        && p.activo is bool
+        && p.actualizadoEn == request.time;
+    }
+
+    match /productos/{id} {
+      // El catálogo es público.
+      allow read: if true;
+
+      // Solo el administrador gestiona productos.
+      allow create: if esAdmin()
+        && productoValido(request.resource.data)
+        && request.resource.data.creadoEn == request.time;
+
+      allow update: if esAdmin()
+        && productoValido(request.resource.data)
+        && request.resource.data.creadoEn == resource.data.creadoEn;
+
+      allow delete: if esAdmin();
+    }
+
+    // ---------- pedidos/{id} ----------
+    function pedidoValido(d) {
+      return d.keys().hasOnly(['clienteId', 'clienteNombre', 'productoId', 'productoNombre', 'cantidad',
+                               'precioUnitario', 'total', 'estado', 'nota', 'creadoEn'])
+        && d.clienteId is string
+        && textoEntre(d.clienteNombre, 1, 60)
+        && d.productoId is string
+        && textoEntre(d.productoNombre, 1, 60)
+        && d.cantidad is int && d.cantidad >= 1 && d.cantidad <= 20
+        && d.precioUnitario is number && d.precioUnitario > 0
+        && d.total == d.cantidad * d.precioUnitario
+        && d.estado in ['pendiente', 'confirmado', 'entregado', 'cancelado']
+        && textoEntre(d.nota, 0, 200)
+        && d.creadoEn == request.time;
+    }
+
+    // El pedido de un cliente debe coincidir con el producto real:
+    // activo, mismo nombre y precio, y sin pedir más de lo que hay en stock.
+    function coincideConProducto(d) {
+      let producto = get(/databases/$(database)/documents/productos/$(d.productoId)).data;
+      return producto.activo == true
+        && d.productoNombre == producto.nombre
+        && d.precioUnitario == producto.precio
+        && d.cantidad <= producto.stock;
+    }
+
+    // Cambios de estado permitidos al administrador.
+    function transicionValida(antes, despues) {
+      return (antes == 'pendiente' && despues in ['confirmado', 'cancelado'])
+        || (antes == 'confirmado' && despues == 'entregado');
+    }
+
+    function soloCambiaEstado() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado', 'actualizadoEn'])
+        && request.resource.data.actualizadoEn == request.time;
+    }
+
+    match /pedidos/{id} {
+      // Cada cliente ve solo sus pedidos; el administrador ve todos.
+      allow read: if autenticado()
+        && (resource.data.clienteId == request.auth.uid || esAdmin());
+
+      // Un cliente crea pedidos propios, pendientes y válidos.
+      // El administrador también puede crearlos (carga de datos iniciales).
+      allow create: if autenticado()
+        && pedidoValido(request.resource.data)
+        && (esAdmin()
+            || (request.resource.data.clienteId == request.auth.uid
+                && request.resource.data.estado == 'pendiente'
+                && coincideConProducto(request.resource.data)));
+
+      // El cliente solo puede cancelar un pedido suyo que siga pendiente.
+      // El administrador puede avanzar el estado según transicionValida().
+      allow update: if autenticado() && soloCambiaEstado() && (
+        (resource.data.clienteId == request.auth.uid
+          && resource.data.estado == 'pendiente'
+          && request.resource.data.estado == 'cancelado')
+        || (esAdmin() && transicionValida(resource.data.estado, request.resource.data.estado))
+      );
+
+      // Los pedidos no se borran: quedan como historial (se cancelan).
+      allow delete: if false;
+    }
+  }
+}
