@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administración de productos | MIAH</title>
+
+    <!-- Estilos compartidos de las páginas nuevas -->
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO: misma estructura de catalogo.html -->
+    <header id="encabezado">
+
+        <div id="barra">
+
+            <div id="marca">
+                <a href="index.html" aria-label="MIAH, ir al inicio" id="logo">
+                    MIAH
+                </a>
+
+                <span id="eslogan">
+                    Recycled plastic and natural fibers
+                </span>
+            </div>
+
+            <nav aria-label="Navegación principal">
+                <ul id="menu">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main id="contenido">
+
+        <h1>Administración de productos</h1>
+
+        <p>
+            Gestiona los productos, precios y existencias
+            de la colección MIAH.
+        </p>
+
+        <!-- CARGA DE DATOS INICIALES -->
+        <section id="seccion-semilla">
+
+            <button type="button" id="btn-semilla" hidden>
+                Cargar datos iniciales
+            </button>
+
+        </section>
+
+        <!-- INDICADORES DE INVENTARIO -->
+        <section id="indicadores">
+
+            <h2>Indicadores de inventario</h2>
+
+            <div class="cuadricula-indicadores">
+
+                <!-- Valor total del inventario -->
+                <article class="tarjeta-indicador">
+
+                    <h3>Valor del inventario</h3>
+
+                    <p id="indicador-valor">$0.00</p>
+
+                </article>
+
+                <!-- Unidades totales -->
+                <article class="tarjeta-indicador">
+
+                    <h3>Unidades totales</h3>
+
+                    <p id="indicador-unidades">0</p>
+
+                </article>
+
+                <!-- Productos con stock bajo -->
+                <article class="tarjeta-indicador">
+
+                    <h3>Productos activos con stock bajo</h3>
+
+                    <p id="indicador-stock-bajo">0</p>
+
+                </article>
+
+            </div>
+
+            <!-- LISTA DE PRODUCTOS CON STOCK BAJO -->
+            <div id="seccion-stock-bajo">
+
+                <h3>Lista de stock bajo</h3>
+
+                <ul id="lista-stock-bajo">
+                    <li>No hay productos con stock bajo.</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+        <!-- FORMULARIO PARA CREAR Y EDITAR PRODUCTOS -->
+        <section id="seccion-formulario">
+
+            <h2>Registrar o editar producto</h2>
+
+            <form id="form-producto" novalidate>
+
+                <!-- Campo oculto: vacío para crear, con ID para editar -->
+                <input type="hidden" name="productoId">
+
+                <div class="campo-admin">
+
+                    <label for="nombre">Nombre</label>
+
+                    <input
+                        id="nombre"
+                        name="nombre"
+                        type="text"
+                        required
+                        minlength="3"
+                        maxlength="60"
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="linea">Línea</label>
+
+                    <input
+                        id="linea"
+                        name="linea"
+                        type="text"
+                        required
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="precio">Precio (USD)</label>
+
+                    <input
+                        id="precio"
+                        name="precio"
+                        type="number"
+                        required
+                        min="0.01"
+                        step="0.01"
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="stock">Stock</label>
+
+                    <input
+                        id="stock"
+                        name="stock"
+                        type="number"
+                        required
+                        min="0"
+                        step="1"
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="materiales">Materiales</label>
+
+                    <input
+                        id="materiales"
+                        name="materiales"
+                        type="text"
+                        required
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="variantes">
+                        Variantes (separadas por coma)
+                    </label>
+
+                    <input
+                        id="variantes"
+                        name="variantes"
+                        type="text"
+                        placeholder="Clásica, Mini"
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="imagen">Imagen</label>
+
+                    <input
+                        id="imagen"
+                        name="imagen"
+                        type="text"
+                        required
+                        placeholder="img/bolso-eva-cherry-hombro.jpg"
+                    >
+
+                </div>
+
+                <div class="campo-admin">
+
+                    <label for="descripcion">Descripción</label>
+
+                    <textarea
+                        id="descripcion"
+                        name="descripcion"
+                        required
+                        maxlength="400"
+                    ></textarea>
+
+                </div>
+
+                <div class="campo-checkbox">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="activo"
+                            checked
+                        >
+                        Visible en el catálogo
+                    </label>
+
+                </div>
+
+                <!-- BOTONES DEL FORMULARIO -->
+                <div class="acciones-formulario">
+
+                    <button type="submit" id="btn-guardar">
+                        Guardar producto
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btn-cancelar-edicion"
+                        hidden
+                    >
+                        Cancelar edición
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <!-- TABLA DE PRODUCTOS -->
+        <section id="seccion-tabla">
+
+            <h2>Productos registrados</h2>
+
+            <!-- Estados de carga, error y productos vacíos -->
+<div id="estado-productos" aria-live="polite"></div>
+
+<div class="tabla-contenedor">
+
+                <table id="tabla-productos">
+
+                    <thead>
+
+                        <tr>
+                            <th>Producto</th>
+                            <th>Línea</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="cuerpo-productos">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA: misma estructura de catalogo.html -->
+    <footer id="pie">
+
+        <div id="pie-interior">
+
+            <div id="marca-pie">
+
+                <p id="logo-pie">MIAH</p>
+
+                <p>
+                    Recycled plastic and natural fibers.
+                    Accesorios artesanales hechos en El Salvador.
+                </p>
+
+            </div>
+
+            <nav aria-label="Enlaces del pie de página">
+
+                <ul id="enlaces-pie">
+
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="catalogo.html">Catálogo</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+
+                </ul>
+
+            </nav>
+
+            <address id="contacto-pie">
+
+                <a href="mailto:miahandbagselsalvador@gmail.com">
+                    miahandbagselsalvador@gmail.com
+                </a>
+
+                <a href="tel:+50376826089">
+                    +503 7682 6089
+                </a>
+
+                <a
+                    href="https://www.instagram.com/miahandbagssv/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    @miahandbagssv
+                </a>
+
+            </address>
+
+        </div>
+
+        <p id="derechos">© MIAH · Mia Handbags SV</p>
+
+    </footer>
+
+    <!-- Menú compartido de DMoralGar -->
+    <script type="module" src="js/ui/nav.js"></script>
+
+    <!-- JavaScript propio de Pablo -->
+    <script type="module" src="js/pages/admin-productos.js"></script>
+
+</body>
+</html>

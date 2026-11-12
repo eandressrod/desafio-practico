@@ -1,6 +1,10 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
 
-/* Variables */
+/* =========================================
+   VARIABLES
+========================================= */
+
 :root {
   --color-principal: #C77B31;
   --color-secundario: #503829;
@@ -10,11 +14,18 @@
   --color-borde: #D9CBB8;
 }
 
-/* Base */
+/* =========================================
+   ESTILOS GENERALES
+========================================= */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -40,12 +51,16 @@ img {
   display: block;
 }
 
-a:focus-visible {
+a:focus-visible,
+button:focus-visible {
   outline: 3px solid var(--color-principal);
   outline-offset: 3px;
 }
 
-/* Encabezado */
+/* =========================================
+   ENCABEZADO
+========================================= */
+
 #encabezado {
   font-family: 'Poppins', Arial, sans-serif;
   line-height: 1.7;
@@ -106,19 +121,22 @@ a:focus-visible {
   border-bottom-color: var(--color-principal);
 }
 
-/* Presentación */
+/* =========================================
+   PRESENTACIÓN
+========================================= */
+
+.contenedor {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 #presentacion {
   background-color: var(--color-secundario);
   color: var(--color-fondo);
   text-align: center;
   padding: 3.5rem 1rem;
   margin-bottom: 2.5rem;
-}
-
-.contenedor {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 #presentacion h1 {
@@ -134,7 +152,10 @@ a:focus-visible {
   color: var(--color-fondo);
 }
 
-/* Productos */
+/* =========================================
+   CATÁLOGO DE PRODUCTOS
+========================================= */
+
 #catalogo {
   padding-bottom: 4rem;
 }
@@ -147,13 +168,82 @@ a:focus-visible {
   padding-bottom: 0.5rem;
 }
 
-#productos {
+/* =========================================
+   BUSCADOR Y FILTROS
+========================================= */
+
+#filtros {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background-color: #ffffff;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+}
+
+.campo-filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.campo-filtro label {
+  color: var(--color-secundario);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+#buscar,
+#filtro-linea,
+#orden {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: var(--color-texto);
+  font: inherit;
+}
+
+#buscar:focus-visible,
+#filtro-linea:focus-visible,
+#orden:focus-visible {
+  outline: 2px solid var(--color-principal);
+  outline-offset: 2px;
+}
+
+/* =========================================
+   RESUMEN DE RESULTADOS
+========================================= */
+
+#resumen {
+  min-height: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--color-secundario);
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   CUADRÍCULA DINÁMICA
+========================================= */
+
+#lista-productos {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
 }
 
+/* =========================================
+   TARJETAS DE PRODUCTOS
+========================================= */
+
 .tarjeta-producto {
+  min-width: 0;
   background-color: #ffffff;
   border: 1px solid var(--color-borde);
   border-radius: 8px;
@@ -172,6 +262,12 @@ a:focus-visible {
   height: 260px;
   background-color: var(--color-borde);
   overflow: hidden;
+}
+
+.imagen-contenedor img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .info-producto {
@@ -203,6 +299,8 @@ a:focus-visible {
   flex-grow: 1;
 }
 
+/* Detalles técnicos */
+
 .detalles-tecnicos {
   font-size: 0.85rem;
   color: #555;
@@ -220,6 +318,17 @@ a:focus-visible {
   margin-bottom: 0;
 }
 
+/* Precio */
+
+.precio {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-secundario);
+  margin-bottom: 1rem;
+}
+
+/* Botón para pedir */
+
 .boton-accion {
   display: block;
   text-align: center;
@@ -236,7 +345,47 @@ a:focus-visible {
   background-color: var(--color-secundario);
 }
 
+/* Botón cuando el producto está agotado */
+
+.boton-desactivado {
+  background-color: #888888;
+  color: #ffffff;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* =========================================
+   ESTADOS DEL CATÁLOGO
+========================================= */
+
+.estado-catalogo {
+  grid-column: 1 / -1;
+  padding: 2rem 1rem;
+  text-align: center;
+  background-color: #ffffff;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+}
+
+.estado-carga {
+  color: var(--color-secundario);
+}
+
+.estado-error {
+  color: var(--color-acento);
+}
+
+.estado-vacio {
+  color: #666666;
+}
+
+/* =========================================
+   PEDIDOS PERSONALIZADOS
+========================================= */
+
 #pedido-personalizado {
+  width: 100%;
+  margin-top: 2rem;
   background-color: var(--color-secundario);
   color: var(--color-fondo);
   border: none;
@@ -274,7 +423,10 @@ a:focus-visible {
   background-color: var(--color-principal);
 }
 
-/* Pie de página */
+/* =========================================
+   PIE DE PÁGINA
+========================================= */
+
 #pie {
   font-family: 'Poppins', Arial, sans-serif;
   line-height: 1.7;
@@ -309,12 +461,14 @@ a:focus-visible {
   gap: .4rem;
 }
 
-#enlaces-pie a, #contacto-pie a {
+#enlaces-pie a,
+#contacto-pie a {
   text-decoration: none;
   color: var(--color-fondo);
 }
 
-#enlaces-pie a:hover, #contacto-pie a:hover {
+#enlaces-pie a:hover,
+#contacto-pie a:hover {
   color: var(--color-principal);
 }
 
@@ -335,12 +489,27 @@ a:focus-visible {
   color: var(--color-borde);
 }
 
-/* Breakpoints */
+/* =========================================
+   RESPONSIVE: TABLET
+========================================= */
+
 @media (max-width: 1000px) {
-  #productos {
-    grid-template-columns: repeat(2, 1fr);
+  #lista-productos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #filtros {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .campo-filtro:first-child {
+    grid-column: 1 / -1;
   }
 }
+
+/* =========================================
+   RESPONSIVE: TABLET Y PANTALLAS MEDIANAS
+========================================= */
 
 @media (max-width: 900px) {
   #barra {
@@ -371,12 +540,80 @@ a:focus-visible {
   }
 }
 
+/* =========================================
+   RESPONSIVE: MÓVILES
+========================================= */
+
 @media (max-width: 580px) {
+  #presentacion {
+    padding: 2.5rem 1rem;
+  }
+
   #presentacion h1 {
     font-size: 1.7rem;
   }
 
-  #productos {
+  #presentacion p {
+    font-size: .95rem;
+  }
+
+  #lista-productos {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  #filtros {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .campo-filtro:first-child {
+    grid-column: auto;
+  }
+
+  #titulo-productos {
+    font-size: 1.4rem;
+  }
+
+  .imagen-contenedor {
+    height: 240px;
+  }
+
+  #pie-interior {
+    padding: 2rem 1rem;
+  }
+
+  #derechos {
+    padding: 1rem;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: PANTALLAS MUY PEQUEÑAS
+========================================= */
+
+@media (max-width: 375px) {
+  .contenedor {
+    width: 92%;
+  }
+
+  #barra {
+    padding: 1rem;
+  }
+
+  #menu {
+    gap: .35rem;
+  }
+
+  #menu a {
+    font-size: .78rem;
+  }
+
+  .info-producto {
+    padding: 1.1rem;
+  }
+
+  #filtros {
+    gap: .8rem;
   }
 }
