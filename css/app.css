@@ -1,0 +1,19 @@
+/* Variables */
+:root {
+  --color-principal: #C77B31;
+  --color-secundario: #503829;
+  --color-texto: #171513;
+  --color-acento: #6D2F3D;
+  --color-fondo: #F4EFE6;
+  --color-borde: #D9CBB8;
+}
+
+.estado { padding: 2rem 1rem; text-align: center; color: var(--color-secundario); }
+#avisos { position: fixed; right: 1rem; bottom: 1rem; display: grid; gap: .5rem; z-index: 50; }
+.aviso { padding: .75rem 1rem; border-radius: 8px; color: #fff; box-shadow: 0 4px 12px rgb(0 0 0 /
+.15); }
+.aviso-exito { background: #3E6B48; }
+.aviso-error { background: var(--color-acento); }
+.aviso-info { background: var(--color-secundario); }
+.insignia-pendiente { background: #F3E3C7; } /* una por estado */
+.tabla-contenedor { overflow-x: auto; }
