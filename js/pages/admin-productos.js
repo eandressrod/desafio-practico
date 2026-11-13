@@ -1,687 +1,236 @@
-
-// ================================================
-// MIAH - ADMINISTRACIÓN DE PRODUCTOS
-// Responsable: Pablo
-// Proceso P1: Catálogo e inventario
-// ================================================
-
-// Servicios existentes de Eandress.
+// js/pages/admin-productos.js — CRUD de productos e indicadores de inventario (solo admin)
 import { exigirSesion } from '../services/auth.js';
-
-import {
-    listarProductos,
-    crearProducto,
-    actualizarProducto,
-    eliminarProducto
-} from '../services/productos.js';
-
+import { listarProductos, crearProducto, actualizarProducto, eliminarProducto } from '../services/productos.js';
 import { cargarSemilla } from '../services/semilla.js';
-
-// Utilidades compartidas de DMoralGar.
 import {
-    mostrarCarga,
-    mostrarVacio,
-    mostrarAviso,
-    botonOcupado,
-    confirmar
+    mostrarCarga, mostrarVacio, mostrarAviso, botonOcupado, confirmar, crearCelda,
 } from '../ui/ui.js';
-
-// Utilidad de formato de Pablo.
 import { formatearPrecio } from '../utils/formato.js';
 
-
-// ================================================
-// ELEMENTOS DEL HTML
-// ================================================
+await exigirSesion('admin'); // comodidad: la protección real está en firestore.rules
 
 const formulario = document.querySelector('#form-producto');
-
-const botonGuardar = document.querySelector('#btn-guardar');
-
-const botonCancelarEdicion = document.querySelector(
-    '#btn-cancelar-edicion'
-);
-
+const campos = formulario.elements;
+const tituloFormulario = document.querySelector('#titulo-formulario');
+const botonGuardar = formulario.querySelector('button[type="submit"]');
+const botonCancelar = document.querySelector('#btn-cancelar');
 const botonSemilla = document.querySelector('#btn-semilla');
-
 const estadoProductos = document.querySelector('#estado-productos');
+const tabla = document.querySelector('#tabla-productos');
+const cuerpoTabla = document.querySelector('#cuerpo-tabla');
 
-const cuerpoTabla = document.querySelector('#cuerpo-productos');
+const STOCK_BAJO = 2; // con 2 unidades o menos hay que reponer
 
-const indicadorValor = document.querySelector('#indicador-valor');
+let productos = []; // copia local de todos los productos (activos e inactivos)
 
-const indicadorUnidades = document.querySelector(
-    '#indicador-unidades'
-);
+// Patrón 1: cargar con estados (carga → datos / vacío / error)
+async function cargarProductos() {
+    tabla.hidden = true;
+    mostrarCarga(estadoProductos, 'Cargando productos…');
 
-const indicadorStockBajo = document.querySelector(
-    '#indicador-stock-bajo'
-);
-
-const listaStockBajo = document.querySelector(
-    '#lista-stock-bajo'
-);
-
-
-// Productos obtenidos desde Firestore.
-let productos = [];
-
-// Cantidad máxima para considerar stock bajo.
-const STOCK_MINIMO = 2;
-
-
-// ================================================
-// LEER FORMULARIO
-// ================================================
-
-function leerFormulario() {
-
-    const f = formulario.elements;
-
-    return {
-        nombre: f.nombre.value.trim(),
-
-        linea: f.linea.value.trim(),
-
-        descripcion: f.descripcion.value.trim(),
-
-        materiales: f.materiales.value.trim(),
-
-        variantes: f.variantes.value
-            .split(',')
-            .map((v) => v.trim())
-            .filter(Boolean),
-
-        precio: Number(f.precio.value),
-
-        stock: Number(f.stock.value),
-
-        imagen: f.imagen.value.trim(),
-
-        activo: f.activo.checked
-    };
-}
-
-
-// ================================================
-// VALIDAR PRODUCTO
-// ================================================
-
-function validarProducto(producto) {
-
-    if (producto.nombre.length < 3) {
-        return 'El nombre debe tener al menos 3 caracteres.';
-    }
-
-    if (!(producto.precio > 0)) {
-        return 'El precio debe ser mayor que $0.';
-    }
-
-    if (
-        !Number.isInteger(producto.stock) ||
-        producto.stock < 0
-    ) {
-        return 'El stock debe ser un entero, 0 o mayor.';
-    }
-
-    // Comprobar que no exista otro producto con el mismo nombre.
-    const idActual = formulario.elements.productoId.value;
-
-    const repetido = productos.some((otro) =>
-        otro.nombre.toLowerCase() === producto.nombre.toLowerCase()
-        && otro.id !== idActual
-    );
-
-    if (repetido) {
-        return 'Ya existe un producto con ese nombre.';
-    }
-
-    return null;
-}
-
-
-// ================================================
-// LIMPIAR FORMULARIO
-// ================================================
-
-function limpiarFormulario() {
-
-    formulario.reset();
-
-    formulario.elements.productoId.value = '';
-
-    botonCancelarEdicion.hidden = true;
-
-    botonGuardar.textContent = 'Guardar producto';
-}
-
-
-// ================================================
-// CREAR O ACTUALIZAR PRODUCTO
-// ================================================
-
-formulario.addEventListener('submit', async (evento) => {
-
-    evento.preventDefault();
-
-    // Validar los campos HTML.
-    if (!formulario.checkValidity()) {
-        formulario.reportValidity();
+    const respuesta = await listarProductos();
+    if (!respuesta.ok) {
+        mostrarVacio(estadoProductos, 'No pudimos cargar los productos.');
+        mostrarAviso(respuesta.error, 'error');
         return;
     }
 
-    const datos = leerFormulario();
-
-    // Validar las reglas del negocio.
-    const error = validarProducto(datos);
-
-    if (error) {
-        mostrarAviso(error, 'error');
-        return;
-    }
-
-    const id = formulario.elements.productoId.value;
-
-    botonOcupado(botonGuardar, true, 'Guardando…');
-
-    try {
-
-        // Si existe ID, actualizar.
-        // Si no existe, crear.
-        const respuesta = id
-            ? await actualizarProducto(id, datos)
-            : await crearProducto(datos);
-
-        if (!respuesta.ok) {
-            mostrarAviso(respuesta.error, 'error');
-            return;
-        }
-
-        mostrarAviso(
-            id
-                ? 'Producto actualizado.'
-                : 'Producto creado.',
-            'exito'
-        );
-
-        limpiarFormulario();
-
-        // Volver a leer los productos desde Firestore.
-        await cargarProductos();
-
-    } catch (error) {
-
-        console.error('Error al guardar el producto:', error);
-
-        mostrarAviso(
-            'Ocurrió un error al guardar el producto.',
-            'error'
-        );
-
-    } finally {
-
-        botonOcupado(botonGuardar, false);
-
-    }
-
-});
-
-
-// ================================================
-// CALCULAR INDICADORES
-// ================================================
-
-function calcularIndicadores(lista) {
-
-    // Valor total: precio multiplicado por stock.
-    const valorInventario = lista.reduce(
-        (suma, p) => suma + p.precio * p.stock,
-        0
-    );
-
-    // Sumar todas las unidades.
-    const unidades = lista.reduce(
-        (suma, p) => suma + p.stock,
-        0
-    );
-
-    // Productos activos con stock igual o menor a 2.
-    const stockBajo = lista.filter(
-        (p) => p.activo && p.stock <= STOCK_MINIMO
-    );
-
-    // Contar productos por línea.
-    const porLinea = lista.reduce((grupos, p) => {
-
-        grupos[p.linea] = (grupos[p.linea] || 0) + 1;
-
-        return grupos;
-
-    }, {});
-
-    return {
-        valorInventario,
-        unidades,
-        stockBajo,
-        porLinea
-    };
+    productos = respuesta.data;
+    botonSemilla.hidden = productos.length > 0; // la carga inicial solo se ofrece con la base vacía
+    pintarIndicadores();
+    pintarTabla();
 }
 
+function tieneStockBajo(producto) {
+    return producto.activo && producto.stock <= STOCK_BAJO;
+}
 
-// ================================================
-// MOSTRAR INDICADORES
-// ================================================
-
+// Indicadores: valor del inventario, unidades y productos por reponer.
 function pintarIndicadores() {
+    const valor = productos.reduce((suma, p) => suma + p.precio * p.stock, 0);
+    const unidades = productos.reduce((suma, p) => suma + p.stock, 0);
+    const porReponer = productos.filter(tieneStockBajo);
 
-    const {
-        valorInventario,
-        unidades,
-        stockBajo
-    } = calcularIndicadores(productos);
+    document.querySelector('#ind-valor').textContent = formatearPrecio(valor);
+    document.querySelector('#ind-unidades').textContent = unidades;
+    document.querySelector('#ind-stock-bajo').textContent = porReponer.length;
 
-    // Actualizar las tarjetas.
-    indicadorValor.textContent =
-        formatearPrecio(valorInventario);
-
-    indicadorUnidades.textContent = unidades;
-
-    indicadorStockBajo.textContent = stockBajo.length;
-
-    // Mostrar productos con stock bajo.
-    if (stockBajo.length === 0) {
-
-        const mensaje = document.createElement('li');
-
-        mensaje.textContent =
-            'No hay productos activos con stock bajo.';
-
-        listaStockBajo.replaceChildren(mensaje);
-
-        return;
-    }
-
-    const elementos = stockBajo.map((producto) => {
-
-        const li = document.createElement('li');
-
-        li.textContent =
-            `${producto.nombre}: ${producto.stock} unidad(es)`;
-
-        return li;
-
-    });
-
-    listaStockBajo.replaceChildren(...elementos);
+    const nombres = porReponer.map((p) => `${p.nombre} (${p.stock})`).join(', ');
+    document.querySelector('#detalle-stock-bajo').textContent = porReponer.length === 0
+        ? 'Ningún producto visible tiene stock bajo.'
+        : `Por reponer: ${nombres}.`;
 }
 
-
-// ================================================
-// CREAR CELDA DE TABLA
-// ================================================
-
-function crearCelda(texto) {
-
-    const celda = document.createElement('td');
-
-    celda.textContent = texto;
-
-    return celda;
+// Patrón 2: dibujar con el DOM
+function textoEstado(producto) {
+    if (!producto.activo) return 'Oculto';
+    if (producto.stock === 0) return 'Agotado';
+    if (producto.stock <= STOCK_BAJO) return 'Stock bajo';
+    return 'Disponible';
 }
 
-
-// ================================================
-// CREAR FILA DE PRODUCTO
-// ================================================
+function crearBoton(texto, clase, accion, id) {
+    const boton = document.createElement('button');
+    boton.type = 'button';
+    boton.className = `boton ${clase}`;
+    boton.textContent = texto;
+    boton.dataset.accion = accion;
+    boton.dataset.id = id;
+    return boton;
+}
 
 function crearFila(producto) {
+    const acciones = crearCelda('');
+    acciones.append(
+        crearBoton('Editar', 'boton-claro', 'editar', producto.id),
+        crearBoton('Eliminar', 'boton-peligro', 'eliminar', producto.id),
+    );
 
     const fila = document.createElement('tr');
-
-    let estado;
-
-    if (!producto.activo) {
-        estado = 'Inactivo';
-    } else if (producto.stock === 0) {
-        estado = 'Agotado';
-    } else if (producto.stock <= STOCK_MINIMO) {
-        estado = 'Stock bajo';
-    } else {
-        estado = 'Disponible';
-    }
-
-    // Resaltar los productos activos con stock bajo.
-    if (producto.activo && producto.stock <= STOCK_MINIMO) {
-        fila.classList.add('stock-bajo');
-    }
-
+    if (tieneStockBajo(producto)) fila.className = 'stock-bajo';
     fila.append(
         crearCelda(producto.nombre),
         crearCelda(producto.linea),
         crearCelda(formatearPrecio(producto.precio)),
         crearCelda(producto.stock),
-        crearCelda(estado)
+        crearCelda(textoEstado(producto)),
+        acciones,
     );
-
-    // Columna de acciones.
-    const celdaAcciones = document.createElement('td');
-
-    const botonEditar = document.createElement('button');
-
-    botonEditar.type = 'button';
-    botonEditar.textContent = 'Editar';
-    botonEditar.dataset.accion = 'editar';
-    botonEditar.dataset.id = producto.id;
-
-    const botonEliminar = document.createElement('button');
-
-    botonEliminar.type = 'button';
-    botonEliminar.textContent = 'Eliminar';
-    botonEliminar.dataset.accion = 'eliminar';
-    botonEliminar.dataset.id = producto.id;
-
-    celdaAcciones.append(botonEditar, botonEliminar);
-
-    fila.append(celdaAcciones);
-
     return fila;
 }
 
-
-// ================================================
-// PINTAR TABLA
-// ================================================
-
 function pintarTabla() {
-
     if (productos.length === 0) {
-
-        mostrarVacio(
-            estadoProductos,
-            'No hay productos registrados.'
-        );
-
-        cuerpoTabla.replaceChildren();
-
+        mostrarVacio(estadoProductos, 'Todavía no hay productos. Carga los datos iniciales o registra uno.');
         return;
     }
 
     estadoProductos.replaceChildren();
-
-    const filas = productos.map(crearFila);
-
-    cuerpoTabla.replaceChildren(...filas);
+    tabla.hidden = false;
+    cuerpoTabla.replaceChildren(...productos.map(crearFila));
 }
 
-
-// ================================================
-// CARGAR PRODUCTOS DESDE FIRESTORE
-// ================================================
-
-async function cargarProductos() {
-
-    mostrarCarga(
-        estadoProductos,
-        'Cargando productos…'
-    );
-
-    try {
-
-        const respuesta = await listarProductos();
-
-        if (!respuesta.ok) {
-
-            botonSemilla.hidden = true;
-
-            cuerpoTabla.replaceChildren();
-
-            mostrarAviso(respuesta.error, 'error');
-
-            const mensaje = document.createElement('p');
-
-            mensaje.className = 'estado estado-error';
-            mensaje.textContent = respuesta.error;
-            mensaje.setAttribute('role', 'alert');
-
-            estadoProductos.replaceChildren(mensaje);
-
-            return;
-        }
-
-        // Guardar todos los productos, activos e inactivos.
-        productos = respuesta.data;
-
-        // Actualizar tabla e indicadores.
-        pintarTabla();
-
-        pintarIndicadores();
-
-        // Mostrar carga inicial únicamente si no hay productos.
-        botonSemilla.hidden = productos.length > 0;
-
-    } catch (error) {
-
-        console.error('Error al cargar productos:', error);
-
-        botonSemilla.hidden = true;
-
-        mostrarAviso(
-            'No se pudieron cargar los productos.',
-            'error'
-        );
-
-    }
-
+// Formulario: el mismo sirve para crear (sin id) y para editar (con id).
+function leerFormulario() {
+    return {
+        nombre: campos.nombre.value.trim(),
+        linea: campos.linea.value.trim(),
+        precio: Number(campos.precio.value),
+        stock: Number(campos.stock.value),
+        materiales: campos.materiales.value.trim(),
+        variantes: campos.variantes.value.split(',').map((v) => v.trim()).filter((v) => v !== ''),
+        imagen: campos.imagen.value.trim(),
+        descripcion: campos.descripcion.value.trim(),
+        activo: campos.activo.checked,
+    };
 }
 
+function llenarFormulario(producto) {
+    campos.productoId.value = producto.id;
+    campos.nombre.value = producto.nombre;
+    campos.linea.value = producto.linea;
+    campos.precio.value = producto.precio;
+    campos.stock.value = producto.stock;
+    campos.materiales.value = producto.materiales;
+    campos.variantes.value = producto.variantes.join(', ');
+    campos.imagen.value = producto.imagen;
+    campos.descripcion.value = producto.descripcion;
+    campos.activo.checked = producto.activo;
 
-// ================================================
-// EDITAR Y ELIMINAR CON DELEGACIÓN DE EVENTOS
-// ================================================
+    tituloFormulario.textContent = `Editar: ${producto.nombre}`;
+    botonCancelar.hidden = false;
+    formulario.scrollIntoView({ behavior: 'smooth' });
+    campos.nombre.focus();
+}
 
-cuerpoTabla.addEventListener('click', async (evento) => {
+function limpiarFormulario() {
+    formulario.reset();
+    campos.productoId.value = '';
+    tituloFormulario.textContent = 'Nuevo producto';
+    botonCancelar.hidden = true;
+}
 
-    const boton = evento.target.closest('button[data-accion]');
-
-    if (!boton) {
+// Patrón 4: formulario con validación (HTML + reglas del negocio)
+formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    if (!formulario.checkValidity()) {
+        formulario.reportValidity();
         return;
     }
 
-    const id = boton.dataset.id;
+    const id = campos.productoId.value;
+    const datos = leerFormulario();
 
-    const producto = productos.find(
-        (p) => p.id === id
-    );
-
-    if (!producto) {
-
-        mostrarAviso(
-            'No se encontró el producto seleccionado.',
-            'error'
-        );
-
+    // Regla del negocio: no puede haber dos productos con el mismo nombre.
+    const repetido = productos.some((p) => p.id !== id && p.nombre.toLowerCase() === datos.nombre.toLowerCase());
+    if (repetido) {
+        mostrarAviso('Ya existe un producto con ese nombre.', 'error');
         return;
     }
 
-    // --------------------------------------------
-    // EDITAR PRODUCTO
-    // --------------------------------------------
-
-    if (boton.dataset.accion === 'editar') {
-
-        const f = formulario.elements;
-
-        f.productoId.value = producto.id;
-
-        f.nombre.value = producto.nombre;
-
-        f.linea.value = producto.linea;
-
-        f.precio.value = producto.precio;
-
-        f.stock.value = producto.stock;
-
-        f.materiales.value = producto.materiales;
-
-        f.variantes.value = Array.isArray(producto.variantes)
-            ? producto.variantes.join(', ')
-            : '';
-
-        f.imagen.value = producto.imagen;
-
-        f.descripcion.value = producto.descripcion;
-
-        f.activo.checked = producto.activo;
-
-        botonCancelarEdicion.hidden = false;
-
-        botonGuardar.textContent = 'Actualizar producto';
-
-        f.nombre.focus();
-
-        formulario.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-
-        return;
-    }
-
-    // --------------------------------------------
-    // ELIMINAR PRODUCTO
-    // --------------------------------------------
-
-    if (boton.dataset.accion === 'eliminar') {
-
-        const seguro = await confirmar(
-            `¿Eliminar "${producto.nombre}"? No se puede deshacer.`
-        );
-
-        if (!seguro) {
-            return;
-        }
-
-        botonOcupado(boton, true, 'Eliminando…');
-
-        try {
-
-            const respuesta = await eliminarProducto(producto.id);
-
-            if (!respuesta.ok) {
-
-                mostrarAviso(respuesta.error, 'error');
-
-                return;
-            }
-
-            mostrarAviso(
-                'Producto eliminado.',
-                'exito'
-            );
-
-            await cargarProductos();
-
-        } catch (error) {
-
-            console.error('Error al eliminar producto:', error);
-
-            mostrarAviso(
-                'No se pudo eliminar el producto.',
-                'error'
-            );
-
-        } finally {
-
-            botonOcupado(boton, false);
-
-        }
-
-    }
-
-});
-
-
-// ================================================
-// CANCELAR EDICIÓN
-// ================================================
-
-botonCancelarEdicion.addEventListener('click', () => {
-
-    limpiarFormulario();
-
-});
-
-
-// ================================================
-// CARGAR DATOS INICIALES
-// ================================================
-
-botonSemilla.addEventListener('click', async () => {
-
-    // Evitar cargar datos si ya existen productos.
-    if (productos.length > 0) {
-        botonSemilla.hidden = true;
-        return;
-    }
-
-    botonOcupado(
-        botonSemilla,
-        true,
-        'Cargando datos…'
-    );
-
+    botonOcupado(botonGuardar, true, 'Guardando…');
     try {
-
-        const respuesta = await cargarSemilla();
-
+        const respuesta = id ? await actualizarProducto(id, datos) : await crearProducto(datos);
         if (!respuesta.ok) {
-
-            mostrarAviso(respuesta.error, 'error');
-
+            mostrarAviso(respuesta.error, 'error'); // ej. "El precio debe ser mayor que $0."
             return;
         }
-
-        const datos = respuesta.data;
-
-        mostrarAviso(
-            `Datos iniciales cargados: ${datos.productos} productos y ${datos.pedidos} pedidos.`,
-            'exito'
-        );
-
-        if (datos.omitidos > 0) {
-            mostrarAviso(
-                `${datos.omitidos} pedidos fueron omitidos porque no se encontraron sus clientes o productos.`,
-                'info'
-            );
-        }
-
-        // Volver a consultar Firestore.
-        await cargarProductos();
-
-    } catch (error) {
-
-        console.error('Error al cargar datos iniciales:', error);
-
-        mostrarAviso(
-            'No se pudieron cargar los datos iniciales.',
-            'error'
-        );
-
+        mostrarAviso(id ? 'Producto actualizado.' : 'Producto creado.', 'exito');
+        limpiarFormulario();
+        await cargarProductos(); // volver a leer de Firestore
     } finally {
-
-        botonOcupado(botonSemilla, false);
-
+        botonOcupado(botonGuardar, false);
     }
-
 });
 
+botonCancelar.addEventListener('click', limpiarFormulario);
 
-// ================================================
-// INICIO Y PROTECCIÓN DE LA PÁGINA
-// ================================================
+// Patrón 3: un solo listener para los botones de la tabla (delegación)
+cuerpoTabla.addEventListener('click', async (evento) => {
+    const boton = evento.target.closest('button[data-accion]');
+    if (!boton) return;
 
-// Solo puede continuar un usuario con rol administrador.
-await exigirSesion('admin');
+    const producto = productos.find((p) => p.id === boton.dataset.id);
+    if (boton.dataset.accion === 'editar') {
+        llenarFormulario(producto);
+        return;
+    }
 
-// Cargar los productos al entrar.
+    const seguro = await confirmar(`¿Eliminar "${producto.nombre}"? No se puede deshacer.`);
+    if (!seguro) return;
+
+    botonOcupado(boton, true, 'Eliminando…');
+    const respuesta = await eliminarProducto(producto.id);
+    if (!respuesta.ok) {
+        mostrarAviso(respuesta.error, 'error');
+        botonOcupado(boton, false);
+        return;
+    }
+
+    mostrarAviso('Producto eliminado.', 'exito');
+    if (campos.productoId.value === producto.id) limpiarFormulario(); // se estaba editando
+    await cargarProductos();
+});
+
+// Carga inicial: sube los productos y pedidos de js/data/datos-iniciales.js
+botonSemilla.addEventListener('click', async () => {
+    botonOcupado(botonSemilla, true, 'Cargando datos…');
+    try {
+        const respuesta = await cargarSemilla();
+        if (!respuesta.ok) {
+            mostrarAviso(respuesta.error, 'error');
+            return;
+        }
+
+        const { productos: cantidadProductos, pedidos, omitidos } = respuesta.data;
+        mostrarAviso(`Datos cargados: ${cantidadProductos} productos y ${pedidos} pedidos.`, 'exito');
+        if (omitidos > 0) {
+            mostrarAviso(`${omitidos} pedido(s) omitidos: sus clientes aún no se han registrado.`, 'info');
+        }
+        await cargarProductos();
+    } finally {
+        botonOcupado(botonSemilla, false);
+    }
+});
+
 await cargarProductos();

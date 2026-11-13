@@ -21,9 +21,9 @@ async function leerPerfil(usuarioFirebase) {
   }
   return {
     uid: usuarioFirebase.uid,
-    nombre: perfil.nombre ?? usuarioFirebase.email,
+    nombre: perfil.nombre || usuarioFirebase.email,
     correo: usuarioFirebase.email,
-    rol: perfil.rol ?? 'cliente', // sin documento, se trata como cliente
+    rol: perfil.rol || 'cliente', // sin documento, se trata como cliente
   };
 }
 

@@ -1,144 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
+/* Página Contacto. Lo común (variables, encabezado, botones y pie) está en base.css. */
 
-/* Variables */
-:root {
-  --color-principal: #C77B31;
-  --color-secundario: #503829;
-  --color-texto: #171513;
-  --color-acento: #6D2F3D;
-  --color-fondo: #F4EFE6;
-  --color-borde: #D9CBB8;
-}
-
-/* Base */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  font-family: 'Poppins', Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-texto);
-  background: var(--color-fondo);
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-figure {
-  margin: 0;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-a {
-  color: inherit;
-}
-
-p {
-  margin: 0 0 1rem;
-}
-
-h1, h2, h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  line-height: 1.1;
-  color: var(--color-secundario);
-  margin: 0 0 1rem;
-}
-
-h1 {
-  font-size: clamp(2.6rem, 7vw, 4.6rem);
-  text-transform: uppercase;
-  letter-spacing: .02em;
-}
-
-h2 {
-  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
-}
-
-h3 {
-  font-size: 1.5rem;
-}
-
-a:focus-visible, button:focus-visible {
-  outline: 3px solid var(--color-principal);
-  outline-offset: 3px;
-}
-
-/* Encabezado */
-#encabezado {
-  background: var(--color-texto);
-  border-bottom: 1px solid var(--color-secundario);
-}
-
-#barra {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .75rem 2rem;
-}
-
-#marca {
-  display: flex;
-  flex-direction: column;
-}
-
-#logo {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-  color: var(--color-fondo);
-  text-decoration: none;
-  line-height: 1;
-}
-
-#eslogan {
-  margin-top: .3rem;
-  font-size: .62rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--color-borde);
-}
-
-#menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .25rem 1.75rem;
-}
-
-#menu a {
-  display: inline-block;
-  padding: .35rem 0;
-  color: var(--color-fondo);
-  font-size: .95rem;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-}
-
-#menu a:hover,
-#menu a[aria-current="page"] {
-  border-bottom-color: var(--color-principal);
-}
-
-/* Presentación */
+/* Presentación (fondo oscuro) */
 #presentacion {
   background: var(--color-texto);
   color: var(--color-fondo);
@@ -146,22 +8,13 @@ a:focus-visible, button:focus-visible {
 }
 
 #presentacion-interior {
-  max-width: 1200px;
+  max-width: var(--ancho-maximo);
   margin: 0 auto;
   padding: 4rem 1.5rem 9rem;
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   gap: 3rem;
   align-items: center;
-}
-
-.sobretitulo {
-  margin-bottom: .75rem;
-  font-size: .8rem;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--color-acento);
 }
 
 #presentacion .sobretitulo {
@@ -184,26 +37,9 @@ a:focus-visible, button:focus-visible {
   margin-top: 1.75rem;
 }
 
-.boton {
-  display: inline-block;
-  padding: .85rem 1.7rem;
-  border: 2px solid var(--color-principal);
-  border-radius: 999px;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: .95rem;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background .2s, color .2s, border-color .2s, transform .2s;
-}
-
+/* En esta página los botones van sobre fondo oscuro */
 .boton:hover {
   transform: translateY(-2px);
-}
-
-.boton-principal {
-  background: var(--color-principal);
-  color: var(--color-texto);
 }
 
 .boton-principal:hover {
@@ -245,7 +81,7 @@ a:focus-visible, button:focus-visible {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 200px 200px 16px 16px;
+  border-radius: 200px 200px var(--radio) var(--radio);
   border: 8px solid var(--color-borde);
 }
 
@@ -273,15 +109,6 @@ a:focus-visible, button:focus-visible {
   z-index: 2;
 }
 
-#titulo-canales {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
 #lista-canales {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -295,7 +122,7 @@ a:focus-visible, button:focus-visible {
   padding: 1.5rem;
   background: #fff;
   border: 1px solid var(--color-borde);
-  border-radius: 16px;
+  border-radius: var(--radio);
   box-shadow: 0 10px 28px rgba(23, 21, 19, .12);
   transition: transform .2s, box-shadow .2s;
 }
@@ -360,7 +187,7 @@ a:focus-visible, button:focus-visible {
 
 /* Formulario */
 #formulario {
-  max-width: 1200px;
+  max-width: var(--ancho-maximo);
   margin: 0 auto;
   padding: 5rem 1.5rem;
   display: grid;
@@ -374,7 +201,7 @@ a:focus-visible, button:focus-visible {
   background: #fff;
   border: 1px solid var(--color-borde);
   border-top: 6px solid var(--color-principal);
-  border-radius: 16px;
+  border-radius: var(--radio);
 }
 
 .campo {
@@ -421,7 +248,7 @@ a:focus-visible, button:focus-visible {
 #foto-formulario {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: var(--radio);
   min-height: 420px;
 }
 
@@ -447,7 +274,7 @@ a:focus-visible, button:focus-visible {
   right: 1.75rem;
   bottom: 1.75rem;
   color: var(--color-fondo);
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--fuente-titulos);
   font-size: 1.6rem;
   line-height: 1.25;
 }
@@ -459,7 +286,7 @@ a:focus-visible, button:focus-visible {
 }
 
 #tiendas-interior {
-  max-width: 1200px;
+  max-width: var(--ancho-maximo);
   margin: 0 auto;
   padding: 5rem 1.5rem;
 }
@@ -494,7 +321,7 @@ a:focus-visible, button:focus-visible {
   padding: 1.75rem 1.5rem;
   background: var(--color-fondo);
   color: var(--color-texto);
-  border-radius: 16px;
+  border-radius: var(--radio);
   border-bottom: 6px solid var(--color-principal);
   transition: transform .2s;
 }
@@ -576,71 +403,9 @@ a:focus-visible, button:focus-visible {
   justify-content: center;
 }
 
-/* Pie de página */
-#pie {
-  background: var(--color-texto);
-  color: var(--color-fondo);
-}
-
-#pie-interior {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 2rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 2rem;
-}
-
-#logo-pie {
-  margin: 0 0 .5rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-}
-
-#marca-pie p:last-child {
-  margin: 0;
-  font-size: .9rem;
-  color: var(--color-borde);
-}
-
-#enlaces-pie {
-  display: grid;
-  gap: .4rem;
-}
-
-#enlaces-pie a, #contacto-pie a {
-  text-decoration: none;
-  color: var(--color-fondo);
-}
-
-#enlaces-pie a:hover, #contacto-pie a:hover {
-  color: var(--color-principal);
-}
-
-#contacto-pie {
-  display: grid;
-  gap: .4rem;
-  font-style: normal;
-  font-size: .95rem;
-  overflow-wrap: anywhere;
-}
-
-#derechos {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--color-secundario);
-  font-size: .8rem;
-  color: var(--color-borde);
-}
-
-/* Breakpoints */
+/* Tabletas y móviles */
 @media (max-width: 1000px) {
-  #presentacion-interior {
-    gap: 2rem;
-  }
-
+  #presentacion-interior,
   #formulario {
     gap: 2rem;
   }
@@ -651,29 +416,6 @@ a:focus-visible, button:focus-visible {
 }
 
 @media (max-width: 900px) {
-  #barra {
-    justify-content: center;
-    text-align: center;
-  }
-
-  #marca {
-    align-items: center;
-  }
-
-  #barra nav {
-    width: 100%;
-  }
-
-  #menu {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: .5rem;
-  }
-
-  #menu a {
-    font-size: .85rem;
-  }
-
   #presentacion-interior {
     grid-template-columns: 1fr;
     padding: 2.5rem 1.25rem 7rem;
@@ -731,16 +473,11 @@ a:focus-visible, button:focus-visible {
   #lista-tiendas {
     grid-template-columns: 1fr;
   }
-
-  #pie-interior {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 480px) {
   .boton {
     width: 100%;
-    text-align: center;
   }
 
   .canal {

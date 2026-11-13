@@ -12,7 +12,7 @@ function crearItem(hijo) {
 function crearEnlace(texto, href) {
     const enlace = document.createElement('a');
     enlace.href = href;
-    enlace.textContent = texto; 
+    enlace.textContent = texto;
     if (location.pathname.endsWith(href)) enlace.setAttribute('aria-current', 'page');
     return crearItem(enlace);
 }

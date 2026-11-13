@@ -1,167 +1,32 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
-
-/* Variables */
-:root {
-  --color-principal: #C77B31;
-  --color-secundario: #503829;
-  --color-texto: #171513;
-  --color-acento: #6D2F3D;
-  --color-fondo: #DED8CE;
-  --color-borde: #D9CBB8;
-}
-
-/* Base */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+/* Página Nosotros. Lo común (variables, encabezado, botones y pie) está en base.css. */
 
 body {
-  margin: 0;
-  font-family: 'Poppins', Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-texto);
-  background: var(--color-fondo);
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-figure {
-  margin: 0;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-a {
-  color: inherit;
-}
-
-h1, h2, h3 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  line-height: 1.1;
-  color: var(--color-secundario);
-  margin: 0 0 1rem;
-}
-
-h1 {
-  font-size: clamp(2.6rem, 7vw, 4.6rem);
-  text-transform: uppercase;
-  letter-spacing: .02em;
+  background: var(--color-piedra);
 }
 
 h1 span {
   display: block;
 }
 
-h2 {
-  font-size: clamp(1.9rem, 4.5vw, 2.8rem);
-}
-
-h3 {
-  font-size: 1.6rem;
-}
-
-p {
-  margin: 0 0 1rem;
-}
-
-a:focus-visible, button:focus-visible {
-  outline: 3px solid var(--color-acento);
-  outline-offset: 3px;
-}
-
-/* Encabezado */
-#encabezado {
-  background: var(--color-texto);
-}
-
-#barra {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .75rem 2rem;
-}
-
-#marca {
-  display: flex;
-  flex-direction: column;
-}
-
-#logo {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-  color: var(--color-fondo);
-  text-decoration: none;
-  line-height: 1;
-}
-
-#eslogan {
-  margin-top: .3rem;
-  font-size: .62rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--color-borde);
-}
-
-#menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .25rem 1.75rem;
-}
-
-#menu a {
-  display: inline-block;
-  padding: .35rem 0;
-  color: var(--color-fondo);
-  font-size: .95rem;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-}
-
-#menu a:hover,
-#menu a[aria-current="page"] {
-  border-bottom-color: var(--color-principal);
-}
-
-/* Presentación */
+/* Secciones con el mismo ancho y espacio */
 #presentacion, #historia, #valores, #materiales, #compromiso {
-  max-width: 1200px;
+  max-width: var(--ancho-maximo);
   margin: 0 auto;
   padding: 4.5rem 1.5rem;
 }
 
-#presentacion {
+/* Secciones de dos columnas: texto + foto */
+#presentacion, #historia, #materiales, #compromiso {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3.5rem;
   align-items: center;
 }
 
-.sobretitulo {
-  margin-bottom: .75rem;
-  font-size: .8rem;
-  font-weight: 500;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--color-acento);
+/* Presentación */
+#presentacion {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3rem;
 }
 
 #introduccion {
@@ -176,28 +41,6 @@ a:focus-visible, button:focus-visible {
   margin-top: 1.5rem;
 }
 
-.boton {
-  display: inline-block;
-  padding: .85rem 1.7rem;
-  border: 2px solid var(--color-principal);
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: .95rem;
-  text-decoration: none;
-  transition: background .2s, color .2s;
-}
-
-.boton-principal {
-  background: var(--color-principal);
-  color: var(--color-texto);
-}
-
-.boton-principal:hover {
-  background: var(--color-secundario);
-  border-color: var(--color-secundario);
-  color: var(--color-fondo);
-}
-
 .boton-contorno {
   background: transparent;
   color: var(--color-texto);
@@ -205,14 +48,13 @@ a:focus-visible, button:focus-visible {
 
 .boton-contorno:hover {
   background: var(--color-principal);
-  color: var(--color-texto);
 }
 
 #foto-presentacion img {
   width: 100%;
   height: 560px;
   object-fit: cover;
-  border-radius: 200px 200px 16px 16px;
+  border-radius: 200px 200px var(--radio) var(--radio);
   border: 8px solid var(--color-borde);
 }
 
@@ -234,7 +76,7 @@ a:focus-visible, button:focus-visible {
 
 #datos-cifras strong {
   display: block;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--fuente-titulos);
   font-weight: 500;
   font-size: clamp(1.8rem, 4vw, 3rem);
   line-height: 1.1;
@@ -251,29 +93,20 @@ a:focus-visible, button:focus-visible {
   border-left: 1px solid rgba(244, 239, 230, .3);
 }
 
-/* Historia */
-#historia {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 3.5rem;
-  align-items: center;
-}
-
+/* Historia (las fotos .zoom se acercan al pasar el mouse) */
 .zoom {
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: var(--radio);
+}
+
+.zoom img {
+  transition: transform .5s ease;
 }
 
 #foto-historia img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 0;
-}
-
-.zoom img {
-  border-radius: 0;
-  transition: transform .5s ease;
 }
 
 #foto-historia figcaption {
@@ -311,7 +144,7 @@ a:focus-visible, button:focus-visible {
 .valor {
   padding: 1.75rem 1.5rem;
   background: var(--color-borde);
-  border-radius: 16px;
+  border-radius: var(--radio);
   border-top: 6px solid var(--color-principal);
 }
 
@@ -326,7 +159,7 @@ a:focus-visible, button:focus-visible {
 
 /* Proceso */
 #proceso {
-  max-width: 1200px;
+  max-width: var(--ancho-maximo);
   margin: 0 auto;
   padding: 1rem 1.5rem 4.5rem;
   text-align: center;
@@ -366,10 +199,10 @@ a:focus-visible, button:focus-visible {
   border-radius: 50%;
   background: var(--color-principal);
   color: var(--color-texto);
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--fuente-titulos);
   font-size: 1.8rem;
   font-weight: 600;
-  box-shadow: 0 0 0 8px var(--color-fondo);
+  box-shadow: 0 0 0 8px var(--color-piedra); /* mismo color del fondo de la página */
 }
 
 .paso h3 {
@@ -384,10 +217,7 @@ a:focus-visible, button:focus-visible {
 
 /* Materiales */
 #materiales {
-  display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 3.5rem;
-  align-items: center;
 }
 
 #lista-materiales {
@@ -416,7 +246,6 @@ a:focus-visible, button:focus-visible {
   width: 100%;
   aspect-ratio: 3 / 5;
   object-fit: cover;
-  border-radius: 0;
 }
 
 #fotos-materiales figcaption {
@@ -442,7 +271,7 @@ a:focus-visible, button:focus-visible {
 #cita blockquote::before {
   content: "\201C";
   display: block;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--fuente-titulos);
   font-size: 5rem;
   line-height: .6;
   color: var(--color-principal);
@@ -450,7 +279,7 @@ a:focus-visible, button:focus-visible {
 
 #cita p {
   margin: 0 0 1rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--fuente-titulos);
   font-size: clamp(2rem, 5.5vw, 3.8rem);
   line-height: 1.15;
 }
@@ -463,81 +292,17 @@ a:focus-visible, button:focus-visible {
 }
 
 /* Compromiso */
-#compromiso {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 3.5rem;
-  align-items: center;
-}
-
 #foto-compromiso img {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 0;
 }
 
-/* Pie de página */
 #pie {
-  background: var(--color-texto);
-  color: var(--color-fondo);
   margin-top: 2rem;
 }
 
-#pie-interior {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 2rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 2rem;
-}
-
-#logo-pie {
-  margin: 0 0 .5rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-}
-
-#marca-pie p:last-child {
-  margin: 0;
-  font-size: .9rem;
-  color: var(--color-borde);
-}
-
-#enlaces-pie {
-  display: grid;
-  gap: .4rem;
-}
-
-#enlaces-pie a, #contacto-pie a {
-  text-decoration: none;
-  color: var(--color-fondo);
-}
-
-#enlaces-pie a:hover, #contacto-pie a:hover {
-  color: var(--color-principal);
-}
-
-#contacto-pie {
-  display: grid;
-  gap: .4rem;
-  font-style: normal;
-  font-size: .95rem;
-  overflow-wrap: anywhere;
-}
-
-#derechos {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--color-secundario);
-  font-size: .8rem;
-  color: var(--color-borde);
-}
-
-/* Breakpoints */
+/* Tabletas y móviles */
 @media (max-width: 1000px) {
   #presentacion, #historia, #materiales, #compromiso {
     gap: 2rem;
@@ -549,37 +314,11 @@ a:focus-visible, button:focus-visible {
 }
 
 @media (max-width: 900px) {
-  #barra {
-    justify-content: center;
-    text-align: center;
-  }
-
-  #marca {
-    align-items: center;
-  }
-
-  #barra nav {
-    width: 100%;
-  }
-
-  #menu {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: .5rem;
-  }
-
-  #menu a {
-    font-size: .85rem;
-  }
-
   #presentacion, #historia, #valores, #materiales, #compromiso {
     padding: 3rem 1.25rem;
   }
 
-  #presentacion,
-  #historia,
-  #materiales,
-  #compromiso {
+  #presentacion, #historia, #materiales, #compromiso {
     grid-template-columns: 1fr;
   }
 
@@ -589,7 +328,7 @@ a:focus-visible, button:focus-visible {
 
   #foto-presentacion img {
     height: 380px;
-    border-radius: 140px 140px 16px 16px;
+    border-radius: 140px 140px var(--radio) var(--radio);
   }
 
   #lista-valores {
@@ -635,10 +374,6 @@ a:focus-visible, button:focus-visible {
   #cita {
     padding: 3.5rem 1.25rem;
   }
-
-  #pie-interior {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 560px) {
@@ -652,13 +387,6 @@ a:focus-visible, button:focus-visible {
     border-left: 0;
     border-top: 1px solid rgba(244, 239, 230, .3);
     padding-top: 1.25rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .boton {
-    width: 100%;
-    text-align: center;
   }
 }
 

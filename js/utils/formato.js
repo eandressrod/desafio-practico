@@ -1,24 +1,23 @@
+// js/utils/formato.js — formatos para mostrar precios y fechas
 
- // js/utils/formato.js
-
-// Formato de moneda para El Salvador.
+// Moneda de El Salvador (dólar).
 const moneda = new Intl.NumberFormat('es-SV', {
   style: 'currency',
   currency: 'USD',
 });
 
-// Formato de fecha y hora para El Salvador.
+// Fecha y hora de El Salvador.
 const fecha = new Intl.DateTimeFormat('es-SV', {
   dateStyle: 'medium',
   timeStyle: 'short',
 });
 
-// Convierte un número en precio.
+// 55 → "$55.00"
 export function formatearPrecio(numero) {
   return moneda.format(numero);
 }
 
-// Convierte una fecha en texto.
+// Date → "12 nov 2026, 7:30 p. m." (o "—" si no hay fecha)
 export function formatearFecha(valor) {
   return valor ? fecha.format(valor) : '—';
 }

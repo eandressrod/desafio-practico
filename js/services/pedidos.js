@@ -20,11 +20,6 @@ const TRANSICIONES = {
 
 const MAXIMO_POR_PEDIDO = 20;
 
-// Del más reciente al más antiguo.
-function ordenarRecientes(lista) {
-  return lista.sort((a, b) => b.creadoEn - a.creadoEn);
-}
-
 // CREATE: el cliente con sesión pide un producto.
 // El servicio completa el resto: cliente, nombre y precio del producto, total, estado y fecha.
 export async function crearPedido({ productoId, cantidad, nota = '' }) {
@@ -38,11 +33,7 @@ export async function crearPedido({ productoId, cantidad, nota = '' }) {
       throw errorNegocio(`Puedes pedir hasta ${MAXIMO_POR_PEDIDO} unidades por pedido.`);
     }
 
-    // Se leen el producto y el perfil al mismo tiempo.
-    const [documentoProducto, documentoPerfil] = await Promise.all([
-      getDoc(doc(db, 'productos', productoId)),
-      getDoc(doc(db, 'usuarios', usuario.uid)),
-    ]);
+    const documentoProducto = await getDoc(doc(db, 'productos', productoId));
     if (!documentoProducto.exists() || !documentoProducto.data().activo) {
       throw errorNegocio('Este producto ya no está disponible.');
     }
@@ -51,9 +42,13 @@ export async function crearPedido({ productoId, cantidad, nota = '' }) {
       throw errorNegocio(`Solo quedan ${producto.stock} unidad(es) de ${producto.nombre}.`);
     }
 
+    // Nombre del cliente para que el administrador lo vea en la tabla.
+    const documentoPerfil = await getDoc(doc(db, 'usuarios', usuario.uid));
+    const clienteNombre = documentoPerfil.exists() ? documentoPerfil.data().nombre : usuario.email;
+
     const referencia = await addDoc(pedidos, {
       clienteId: usuario.uid,
-      clienteNombre: documentoPerfil.data()?.nombre ?? usuario.email,
+      clienteNombre,
       productoId,
       productoNombre: producto.nombre,
       cantidad,
@@ -75,7 +70,10 @@ export async function listarMisPedidos() {
     const usuario = auth.currentUser;
     if (!usuario) throw errorNegocio('Inicia sesión para ver tus pedidos.');
     const resultado = await getDocs(query(pedidos, where('clienteId', '==', usuario.uid)));
-    return exito(ordenarRecientes(resultado.docs.map(convertirDoc)));
+    // Se ordena aquí (del más reciente al más antiguo) porque combinar where y orderBy
+    // en Firestore obliga a crear un índice compuesto.
+    const lista = resultado.docs.map(convertirDoc);
+    return exito(lista.sort((a, b) => b.creadoEn - a.creadoEn));
   } catch (error) {
     return fallo(error);
   }
@@ -102,7 +100,7 @@ export async function cambiarEstadoPedido(id, nuevoEstado) {
       if (!documentoPedido.exists()) throw errorNegocio('El pedido ya no existe.');
 
       const pedido = documentoPedido.data();
-      if (!TRANSICIONES[pedido.estado]?.includes(nuevoEstado)) {
+      if (!TRANSICIONES[pedido.estado].includes(nuevoEstado)) {
         throw errorNegocio(`Un pedido ${pedido.estado} no puede pasar a ${nuevoEstado}.`);
       }
 
