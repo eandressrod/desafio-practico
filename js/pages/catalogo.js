@@ -1,11 +1,27 @@
 
- // js/pages/catalogo.js
+/* =========================================
+   MIAH - CATÁLOGO DINÁMICO
+   Responsable: Pablo
+========================================= */
 
-// Importamos los servicios y utilidades existentes.
+// Servicios de Eandress.
 import { listarProductos } from '../services/productos.js';
+
+// Utilidades compartidas de DMoralGar.
+import {
+    mostrarCarga,
+    mostrarVacio,
+    mostrarAviso
+} from '../ui/ui.js';
+
+// Formato de precios de Pablo.
 import { formatearPrecio } from '../utils/formato.js';
 
-// Elementos del HTML.
+
+// =========================================
+// ELEMENTOS DEL HTML
+// =========================================
+
 const contenedor = document.querySelector('#lista-productos');
 const buscador = document.querySelector('#buscar');
 const filtroLinea = document.querySelector('#filtro-linea');
@@ -16,215 +32,386 @@ const formularioFiltros = document.querySelector('#filtros');
 // Copia local de los productos activos.
 let productos = [];
 
-// Muestra mensajes de carga, error o ausencia de resultados.
-function mostrarEstado(mensaje, tipo = 'vacio') {
-  const estado = document.createElement('p');
 
-  estado.className = `estado-catalogo estado-${tipo}`;
-  estado.textContent = mensaje;
-  estado.setAttribute('role', 'status');
+// =========================================
+// ESTADOS DEL CATÁLOGO
+// =========================================
 
-  contenedor.replaceChildren(estado);
-}
+function aplicarEstiloEstado() {
 
-// Carga los productos desde el servicio de Firebase.
-async function cargarProductos() {
-  mostrarEstado('Cargando la colección...', 'carga');
-  resumen.textContent = 'Cargando productos...';
+    const elemento = contenedor.firstElementChild;
 
-  try {
-    const respuesta = await listarProductos();
-
-    // Comprobamos si el servicio devolvió un error.
-    if (!respuesta.ok) {
-      productos = [];
-      resumen.textContent = 'No se pudo cargar el catálogo.';
-      mostrarEstado(respuesta.error, 'error');
-      return;
+    if (elemento) {
+        elemento.classList.add('estado-catalogo');
     }
 
-    // Guardamos únicamente los productos activos.
-    productos = respuesta.data.filter((producto) => producto.activo);
-
-    llenarLineas();
-    pintarProductos();
-
-  } catch (error) {
-    console.error('Error inesperado al cargar productos:', error);
-
-    productos = [];
-    resumen.textContent = 'Error al cargar el catálogo.';
-    mostrarEstado('No pudimos cargar los productos. Intenta más tarde.', 'error');
-  }
 }
 
-// Genera las opciones de línea a partir de los productos.
+function mostrarCargaCatalogo(texto) {
+
+    mostrarCarga(contenedor, texto);
+
+    aplicarEstiloEstado();
+
+}
+
+function mostrarVacioCatalogo(texto) {
+
+    mostrarVacio(contenedor, texto);
+
+    aplicarEstiloEstado();
+
+}
+
+
+// =========================================
+// CARGAR PRODUCTOS DESDE FIRESTORE
+// =========================================
+
+async function cargarProductos() {
+
+    mostrarCargaCatalogo('Cargando la colección...');
+
+    resumen.textContent = 'Cargando productos...';
+
+    try {
+
+        const respuesta = await listarProductos();
+
+        if (!respuesta.ok) {
+
+            productos = [];
+
+            resumen.textContent = 'No se pudo cargar el catálogo.';
+
+            mostrarVacioCatalogo(
+                'No pudimos cargar el catálogo. Intenta más tarde.'
+            );
+
+            mostrarAviso(respuesta.error, 'error');
+
+            return;
+        }
+
+        // Solamente mostramos productos activos.
+        productos = respuesta.data.filter(
+            (producto) => producto.activo
+        );
+
+        llenarLineas();
+
+        pintarProductos();
+
+    } catch (error) {
+
+        console.error('Error al cargar productos:', error);
+
+        productos = [];
+
+        resumen.textContent = 'Error al cargar el catálogo.';
+
+        mostrarVacioCatalogo(
+            'No pudimos cargar los productos. Intenta más tarde.'
+        );
+
+        mostrarAviso(
+            'Ocurrió un error al cargar el catálogo.',
+            'error'
+        );
+
+    }
+
+}
+
+
+// =========================================
+// GENERAR OPCIONES DE LÍNEA
+// =========================================
+
 function llenarLineas() {
-  const opcionTodas = document.createElement('option');
 
-  opcionTodas.value = '';
-  opcionTodas.textContent = 'Todas';
+    const opcionTodas = document.createElement('option');
 
-  filtroLinea.replaceChildren(opcionTodas);
+    opcionTodas.value = '';
+    opcionTodas.textContent = 'Todas';
 
-  const lineas = [
-    ...new Set(productos.map((producto) => producto.linea).filter(Boolean)),
-  ].sort((a, b) => a.localeCompare(b));
+    filtroLinea.replaceChildren(opcionTodas);
 
-  for (const linea of lineas) {
-    const opcion = document.createElement('option');
+    const lineas = [
+        ...new Set(
+            productos
+                .map((producto) => producto.linea)
+                .filter(Boolean)
+        )
+    ].sort((a, b) => a.localeCompare(b));
 
-    opcion.value = linea;
-    opcion.textContent = linea;
+    for (const linea of lineas) {
 
-    filtroLinea.append(opcion);
-  }
+        const opcion = document.createElement('option');
+
+        opcion.value = linea;
+        opcion.textContent = linea;
+
+        filtroLinea.append(opcion);
+
+    }
+
 }
 
-// Combina búsqueda, filtro por línea y ordenamiento.
+
+// =========================================
+// BÚSQUEDA, FILTRO Y ORDEN
+// =========================================
+
 function aplicarFiltros() {
-  const texto = buscador.value.trim().toLowerCase();
-  const linea = filtroLinea.value;
 
-  const resultado = productos.filter((producto) => {
-    const nombre = (producto.nombre || '').toLowerCase();
-    const materiales = (producto.materiales || '').toLowerCase();
+    const texto = buscador.value.trim().toLowerCase();
 
-    const coincideTexto =
-      nombre.includes(texto) || materiales.includes(texto);
+    const linea = filtroLinea.value;
 
-    const coincideLinea =
-      linea === '' || producto.linea === linea;
+    const resultado = productos.filter((producto) => {
 
-    return coincideTexto && coincideLinea;
-  });
+        const nombre = (producto.nombre || '').toLowerCase();
 
-  // Ordenamos una copia para no modificar el arreglo original.
-  if (orden.value === 'precio-asc') {
-    resultado.sort((a, b) => a.precio - b.precio);
-  }
+        const materiales = (producto.materiales || '').toLowerCase();
 
-  if (orden.value === 'precio-desc') {
-    resultado.sort((a, b) => b.precio - a.precio);
-  }
+        const coincideTexto =
+            nombre.includes(texto) ||
+            materiales.includes(texto);
 
-  if (orden.value === 'nombre') {
-    resultado.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  }
+        const coincideLinea =
+            linea === '' || producto.linea === linea;
 
-  return resultado;
+        return coincideTexto && coincideLinea;
+
+    });
+
+    // Orden por precio ascendente.
+    if (orden.value === 'precio-asc') {
+
+        resultado.sort(
+            (a, b) => a.precio - b.precio
+        );
+
+    }
+
+    // Orden por precio descendente.
+    if (orden.value === 'precio-desc') {
+
+        resultado.sort(
+            (a, b) => b.precio - a.precio
+        );
+
+    }
+
+    // Orden alfabético.
+    if (orden.value === 'nombre') {
+
+        resultado.sort(
+            (a, b) => a.nombre.localeCompare(b.nombre)
+        );
+
+    }
+
+    return resultado;
+
 }
 
-// Crea un elemento de lista para los detalles técnicos.
+
+// =========================================
+// CREAR DETALLES TÉCNICOS
+// =========================================
+
 function crearDetalle(etiqueta, valor) {
-  const elemento = document.createElement('li');
-  const titulo = document.createElement('strong');
 
-  titulo.textContent = `${etiqueta}:`;
-  elemento.append(titulo, document.createTextNode(` ${valor}`));
+    const elemento = document.createElement('li');
 
-  return elemento;
+    const titulo = document.createElement('strong');
+
+    const texto = document.createElement('span');
+
+    titulo.textContent = `${etiqueta}:`;
+
+    texto.textContent = ` ${valor}`;
+
+    elemento.append(titulo, texto);
+
+    return elemento;
+
 }
 
-// Construye una tarjeta de producto utilizando el DOM.
+
+// =========================================
+// CREAR TARJETA DE PRODUCTO
+// =========================================
+
 function crearTarjeta(producto) {
-  const tarjeta = document.createElement('article');
-  tarjeta.className = 'tarjeta-producto';
 
-  // Imagen.
-  const contenedorImagen = document.createElement('div');
-  contenedorImagen.className = 'imagen-contenedor';
+    const tarjeta = document.createElement('article');
 
-  const imagen = document.createElement('img');
-  imagen.src = producto.imagen;
-  imagen.alt = producto.nombre;
-  imagen.loading = 'lazy';
+    tarjeta.className = 'tarjeta-producto';
 
-  contenedorImagen.append(imagen);
+    // IMAGEN
+    const contenedorImagen = document.createElement('div');
 
-  // Información.
-  const informacion = document.createElement('div');
-  informacion.className = 'info-producto';
+    contenedorImagen.className = 'imagen-contenedor';
 
-  const etiqueta = document.createElement('span');
-  etiqueta.className = 'etiqueta-categoria';
-  etiqueta.textContent = `Línea ${producto.linea}`;
+    const imagen = document.createElement('img');
 
-  const titulo = document.createElement('h3');
-  titulo.textContent = producto.nombre;
+    imagen.src = producto.imagen;
 
-  const descripcion = document.createElement('p');
-  descripcion.className = 'descripcion';
-  descripcion.textContent = producto.descripcion;
+    imagen.alt = producto.nombre;
 
-  // Precio.
-  const precio = document.createElement('p');
-  precio.className = 'precio';
-  precio.textContent = formatearPrecio(producto.precio);
+    imagen.loading = 'lazy';
 
-  // Detalles técnicos.
-  const detalles = document.createElement('ul');
-  detalles.className = 'detalles-tecnicos';
+    contenedorImagen.append(imagen);
 
-  const variantes = Array.isArray(producto.variantes)
-    ? producto.variantes.join(', ')
-    : '';
 
-  detalles.append(
-    crearDetalle('Materiales', producto.materiales || 'No especificados'),
-    crearDetalle('Variantes', variantes || 'No especificadas'),
-    crearDetalle('Existencias', producto.stock)
-  );
+    // INFORMACIÓN
+    const informacion = document.createElement('div');
 
-  // Botón para realizar un pedido.
-  const accion = document.createElement('a');
-  accion.className = 'boton-accion';
+    informacion.className = 'info-producto';
 
-  if (producto.stock > 0) {
-    accion.href = `pedido.html?id=${encodeURIComponent(producto.id)}`;
-    accion.textContent = 'Pedir';
-  } else {
-    accion.textContent = 'Agotado';
-    accion.classList.add('boton-desactivado');
-    accion.setAttribute('aria-disabled', 'true');
-    accion.setAttribute('tabindex', '-1');
-  }
 
-  informacion.append(
-    etiqueta,
-    titulo,
-    descripcion,
-    precio,
-    detalles,
-    accion
-  );
+    // LÍNEA
+    const etiqueta = document.createElement('span');
 
-  tarjeta.append(contenedorImagen, informacion);
+    etiqueta.className = 'etiqueta-categoria';
 
-  return tarjeta;
-}
+    etiqueta.textContent = `Línea ${producto.linea}`;
 
-// Dibuja los productos que coinciden con los filtros.
-function pintarProductos() {
-  const visibles = aplicarFiltros();
 
-  resumen.textContent =
-    `${visibles.length} de ${productos.length} productos`;
+    // NOMBRE
+    const titulo = document.createElement('h3');
 
-  if (visibles.length === 0) {
-    mostrarEstado(
-      'Ningún bolso coincide con tu búsqueda.',
-      'vacio'
+    titulo.textContent = producto.nombre;
+
+
+    // DESCRIPCIÓN
+    const descripcion = document.createElement('p');
+
+    descripcion.className = 'descripcion';
+
+    descripcion.textContent = producto.descripcion;
+
+
+    // PRECIO
+    const precio = document.createElement('p');
+
+    precio.className = 'precio';
+
+    precio.textContent = formatearPrecio(producto.precio);
+
+
+    // VARIANTES
+    const variantes = Array.isArray(producto.variantes)
+        ? producto.variantes.join(', ')
+        : '';
+
+    // DETALLES
+    const detalles = document.createElement('ul');
+
+    detalles.className = 'detalles-tecnicos';
+
+    detalles.append(
+
+        crearDetalle(
+            'Materiales',
+            producto.materiales || 'No especificados'
+        ),
+
+        crearDetalle(
+            'Variantes',
+            variantes || 'No especificadas'
+        ),
+
+        crearDetalle(
+            'Existencias',
+            producto.stock
+        )
+
     );
-    return;
-  }
 
-  const tarjetas = visibles.map(crearTarjeta);
 
-  contenedor.replaceChildren(...tarjetas);
+    // BOTÓN PEDIR / AGOTADO
+    const accion = document.createElement('a');
+
+    accion.className = 'boton-accion';
+
+    if (producto.stock > 0) {
+
+        accion.href =
+            `pedido.html?id=${encodeURIComponent(producto.id)}`;
+
+        accion.textContent = 'Pedir';
+
+    } else {
+
+        accion.textContent = 'Agotado';
+
+        accion.classList.add('boton-desactivado');
+
+        accion.setAttribute('aria-disabled', 'true');
+
+        accion.setAttribute('tabindex', '-1');
+
+    }
+
+
+    // UNIR ELEMENTOS
+    informacion.append(
+        etiqueta,
+        titulo,
+        descripcion,
+        precio,
+        detalles,
+        accion
+    );
+
+    tarjeta.append(
+        contenedorImagen,
+        informacion
+    );
+
+    return tarjeta;
+
 }
 
-// Eventos de búsqueda, filtro y ordenamiento.
+
+// =========================================
+// MOSTRAR PRODUCTOS
+// =========================================
+
+function pintarProductos() {
+
+    const visibles = aplicarFiltros();
+
+    // Resumen de resultados.
+    resumen.textContent =
+        `${visibles.length} de ${productos.length} productos`;
+
+    // Si no hay coincidencias.
+    if (visibles.length === 0) {
+
+        mostrarVacioCatalogo(
+            'Ningún bolso coincide con tu búsqueda.'
+        );
+
+        return;
+    }
+
+    // Construir tarjetas con createElement.
+    const tarjetas = visibles.map(crearTarjeta);
+
+    contenedor.replaceChildren(...tarjetas);
+
+}
+
+
+// =========================================
+// EVENTOS
+// =========================================
+
 buscador.addEventListener('input', pintarProductos);
 
 filtroLinea.addEventListener('change', pintarProductos);
@@ -232,8 +419,14 @@ filtroLinea.addEventListener('change', pintarProductos);
 orden.addEventListener('change', pintarProductos);
 
 formularioFiltros.addEventListener('submit', (evento) => {
-  evento.preventDefault();
+
+    evento.preventDefault();
+
 });
 
-// Cargamos el catálogo al entrar.
+
+// =========================================
+// INICIO
+// =========================================
+
 cargarProductos();
