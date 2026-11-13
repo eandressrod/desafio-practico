@@ -31,13 +31,13 @@ observarSesion((usuario) => {
         menu.append(crearEnlace('Mis pedidos', 'mis-pedidos.html'));
     }
 
-    const salir = document.createElement('button');
-    salir.type = 'button';
-    salir.className = 'boton-enlace';
-    salir.textContent = `Cerrar sesión (${usuario.nombre})`;
-    salir.addEventListener('click', async () => {
+    // Es un enlace (no un botón) para que tome el estilo del menú en todas las páginas.
+    const salir = crearEnlace(`Cerrar sesión (${usuario.nombre})`, 'index.html');
+    salir.firstElementChild.removeAttribute('aria-current'); // no marcarlo como página actual
+    salir.firstElementChild.addEventListener('click', async (evento) => {
+        evento.preventDefault(); // primero cerrar la sesión, después ir al inicio
         await cerrarSesion();
         location.href = 'index.html';
     });
-    menu.append(crearItem(salir));
+    menu.append(salir);
 });
