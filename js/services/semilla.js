@@ -30,14 +30,16 @@ export async function cargarSemilla() {
 
     const usuarios = await getDocs(collection(db, 'usuarios'));
     const clientePorCorreo = {};
+    // Los correos se comparan sin espacios y en minúsculas para que siempre coincidan.
+    const normalizar = (correo) => correo.trim().toLowerCase();
     usuarios.forEach((usuario) => {
-      clientePorCorreo[usuario.data().correo] = { id: usuario.id, ...usuario.data() };
+      clientePorCorreo[normalizar(usuario.data().correo)] = { id: usuario.id, ...usuario.data() };
     });
 
     let pedidosCargados = 0;
     for (const pedido of pedidosIniciales) {
       const producto = productoPorNombre[pedido.productoNombre];
-      const cliente = clientePorCorreo[pedido.clienteCorreo];
+      const cliente = clientePorCorreo[normalizar(pedido.clienteCorreo)];
       if (!producto || !cliente) continue; // sin producto o sin cliente registrado: se omite
       lote.set(doc(collection(db, 'pedidos')), {
         clienteId: cliente.id,
