@@ -32,10 +32,9 @@ export function exito(data = null) {
 // Respuesta fallida: convierte cualquier error en un mensaje legible.
 export function fallo(error) {
   console.error(error); // el detalle técnico queda en la consola para depurar
-  if (error?.code === 'negocio') {
-    return { ok: false, error: error.message };
-  }
-  return { ok: false, error: MENSAJES[error?.code] ?? MENSAJE_GENERICO };
+  // Error de negocio: su mensaje ya está en español. Error de Firebase: se traduce.
+  const mensaje = error.code === 'negocio' ? error.message : MENSAJES[error.code] || MENSAJE_GENERICO;
+  return { ok: false, error: mensaje };
 }
 
 // Crea un error de regla de negocio (ej. "No hay stock suficiente").

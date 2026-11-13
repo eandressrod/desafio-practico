@@ -4,9 +4,10 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo | MIAH - Accesorios Sostenibles</title>
-    <link rel="stylesheet" href="css/catalogo.css">
+    <title>Catálogo | MIAH</title>
+    <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/catalogo.css">
   </head>
 
   <body>
@@ -35,7 +36,8 @@
       <!-- Presentación -->
       <section id="presentacion">
         <div class="contenedor">
-          <h1>Nuestra Colección</h1>
+          <p class="sobretitulo">Colección MIAH</p>
+          <h1>Nuestra colección</h1>
           <p>
             Piezas únicas elaboradas a mano por talentosos artesanos salvadoreños, fusionando plástico
             reciclado y fibras naturales con elegancia y propósito.
@@ -43,74 +45,47 @@
         </div>
       </section>
 
+      <!-- Productos -->
+      <section class="contenedor" id="catalogo" aria-labelledby="titulo-productos">
+        <h2 id="titulo-productos">Catálogo de productos</h2>
 
-<!-- Productos -->
-<section
-    class="contenedor"
-    id="catalogo"
-    aria-labelledby="titulo-productos"
->
-
-    <h2 id="titulo-productos">Catálogo de Productos</h2>
-
-    <!-- Buscador y filtros -->
-    <form id="filtros" role="search">
-
-        <div class="campo-filtro">
-            <label for="buscar">Buscar producto</label>
-            <input
-                type="search"
-                id="buscar"
-                placeholder="Nombre o material"
-            >
-        </div>
-
-        <div class="campo-filtro">
+        <form id="filtros" role="search">
+          <div class="campo">
+            <label for="buscar">Buscar</label>
+            <input type="search" id="buscar" placeholder="Nombre o material">
+          </div>
+          <div class="campo">
             <label for="filtro-linea">Línea</label>
             <select id="filtro-linea">
-                <option value="">Todas</option>
+              <option value="">Todas</option>
             </select>
-        </div>
-
-        <div class="campo-filtro">
+          </div>
+          <div class="campo">
             <label for="orden">Ordenar por</label>
             <select id="orden">
-                <option value="nombre">Nombre (A-Z)</option>
-                <option value="precio-asc">Precio: menor a mayor</option>
-                <option value="precio-desc">Precio: mayor a menor</option>
+              <option value="nombre">Nombre (A-Z)</option>
+              <option value="precio-asc">Precio: menor a mayor</option>
+              <option value="precio-desc">Precio: mayor a menor</option>
             </select>
-        </div>
+          </div>
+        </form>
 
-    </form>
+        <p id="resumen" aria-live="polite"></p>
 
-    <!-- Resumen -->
-    <p id="resumen" aria-live="polite"></p>
+        <!-- Aquí JavaScript dibuja las tarjetas de los productos -->
+        <div id="lista-productos"></div>
 
-    <!-- Productos generados por JavaScript -->
-    <div id="lista-productos" class="cuadricula"></div>
+        <!-- Pedido personalizado -->
+        <aside id="pedido-personalizado">
+          <h3>¿Buscas un diseño o color personalizado?</h3>
+          <p>
+            En MIAH creamos cada pieza con atención al detalle. Escríbenos para conocer más colores,
+            tamaños especiales o hacer tu pedido directamente.
+          </p>
+          <a class="boton boton-principal" href="contacto.html">Ir a Contacto</a>
+        </aside>
+      </section>
 
-    <!-- Pedido personalizado -->
-    <article class="tarjeta-producto" id="pedido-personalizado">
-        <div class="info-producto" id="texto-pedido">
-
-            <h3>¿Buscas un diseño o color personalizado?</h3>
-
-            <p>
-                En MIAH creamos cada pieza con atención al detalle.
-                Ponte en contacto con nosotros para conocer más colores
-                disponibles, tamaños especiales o realizar tu pedido directamente.
-            </p>
-
-            <a href="contacto.html" id="contacto-personalizado">
-                Ir a Contacto
-            </a>
-
-        </div>
-    </article>
-
-</section>
-
-      
     </main>
 
     <!-- Pie de página -->
@@ -137,11 +112,9 @@
       </div>
       <p id="derechos">© MIAH · Mia Handbags SV</p>
     </footer>
-    <!-- JavaScript del catálogo dinámico -->
+
+    <script type="module" src="js/ui/nav.js"></script>
     <script type="module" src="js/pages/catalogo.js"></script>
-
-     <script type="module" src="js/ui/nav.js"></script>
-
 
   </body>
 </html>

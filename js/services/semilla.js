@@ -9,17 +9,10 @@ import {
 } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js';
 import { db } from '../firebase.js';
 import { exito, fallo, errorNegocio } from './respuestas.js';
+import { productosIniciales, pedidosIniciales } from '../data/datos-iniciales.js';
 
 export async function cargarSemilla() {
   try {
-    let datos;
-    try {
-      datos = await import('../data/datos-iniciales.js');
-    } catch {
-      throw errorNegocio('Todavía no existe el archivo js/data/datos-iniciales.js.');
-    }
-    const { productosIniciales = [], pedidosIniciales = [] } = datos;
-
     const yaHayProductos = await getDocs(query(collection(db, 'productos'), limit(1)));
     if (!yaHayProductos.empty) {
       throw errorNegocio('Ya hay productos cargados. La carga inicial solo se hace con la base vacía.');
@@ -44,8 +37,8 @@ export async function cargarSemilla() {
     let pedidosCargados = 0;
     for (const pedido of pedidosIniciales) {
       const producto = productoPorNombre[pedido.productoNombre];
-      const cliente = clientePorCorreo[pedido.clienteCorreo?.toLowerCase()];
-      if (!producto || !cliente) continue;
+      const cliente = clientePorCorreo[pedido.clienteCorreo];
+      if (!producto || !cliente) continue; // sin producto o sin cliente registrado: se omite
       lote.set(doc(collection(db, 'pedidos')), {
         clienteId: cliente.id,
         clienteNombre: cliente.nombre,
@@ -55,7 +48,7 @@ export async function cargarSemilla() {
         precioUnitario: producto.precio,
         total: pedido.cantidad * producto.precio,
         estado: pedido.estado,
-        nota: pedido.nota ?? '',
+        nota: pedido.nota || '',
         creadoEn: serverTimestamp(),
       });
       pedidosCargados++;

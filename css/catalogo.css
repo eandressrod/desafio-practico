@@ -1,619 +1,123 @@
-
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
-
-/* =========================================
-   VARIABLES
-========================================= */
-
-:root {
-  --color-principal: #C77B31;
-  --color-secundario: #503829;
-  --color-texto: #171513;
-  --color-acento: #6D2F3D;
-  --color-fondo: #F4EFE6;
-  --color-borde: #D9CBB8;
-}
-
-/* =========================================
-   ESTILOS GENERALES
-========================================= */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
-  line-height: 1.6;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-ul {
-  list-style: none;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-a:focus-visible,
-button:focus-visible {
-  outline: 3px solid var(--color-principal);
-  outline-offset: 3px;
-}
-
-/* =========================================
-   ENCABEZADO
-========================================= */
-
-#encabezado {
-  font-family: 'Poppins', Arial, sans-serif;
-  line-height: 1.7;
-  background: var(--color-texto);
-  border-bottom: 1px solid var(--color-secundario);
-}
-
-#barra {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .75rem 2rem;
-}
-
-#marca {
-  display: flex;
-  flex-direction: column;
-}
-
-#logo {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-  color: var(--color-fondo);
-  text-decoration: none;
-  line-height: 1;
-}
-
-#eslogan {
-  margin-top: .3rem;
-  font-size: .62rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--color-borde);
-}
-
-#menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .25rem 1.75rem;
-}
-
-#menu a {
-  display: inline-block;
-  padding: .35rem 0;
-  color: var(--color-fondo);
-  font-size: .95rem;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-}
-
-#menu a:hover,
-#menu a[aria-current="page"] {
-  border-bottom-color: var(--color-principal);
-}
-
-/* =========================================
-   PRESENTACIÓN
-========================================= */
-
-.contenedor {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-#presentacion {
-  background-color: var(--color-secundario);
-  color: var(--color-fondo);
-  text-align: center;
-  padding: 3.5rem 1rem;
-  margin-bottom: 2.5rem;
-}
-
-#presentacion h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.8rem;
-  color: var(--color-borde);
-}
-
-#presentacion p {
-  max-width: 700px;
-  margin: 0 auto;
-  font-size: 1.05rem;
-  color: var(--color-fondo);
-}
-
-/* =========================================
-   CATÁLOGO DE PRODUCTOS
-========================================= */
-
-#catalogo {
-  padding-bottom: 4rem;
-}
+/* Catálogo. Usa base.css (común) y app.css (presentación, filtros y estados);
+   aquí solo va lo propio de las tarjetas de productos. */
 
 #titulo-productos {
-  font-size: 1.6rem;
-  color: var(--color-secundario);
-  margin-bottom: 2rem;
+  padding-bottom: .5rem;
   border-bottom: 2px solid var(--color-borde);
-  padding-bottom: 0.5rem;
 }
 
-/* =========================================
-   BUSCADOR Y FILTROS
-========================================= */
-
-#filtros {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1rem;
-  align-items: end;
-  margin-bottom: 1.5rem;
-  padding: 1.25rem;
-  background-color: #ffffff;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
-}
-
-.campo-filtro {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  min-width: 0;
-}
-
-.campo-filtro label {
-  color: var(--color-secundario);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-#buscar,
-#filtro-linea,
-#orden {
-  width: 100%;
-  min-height: 44px;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--color-borde);
-  border-radius: 4px;
-  background-color: #ffffff;
-  color: var(--color-texto);
-  font: inherit;
-}
-
-#buscar:focus-visible,
-#filtro-linea:focus-visible,
-#orden:focus-visible {
-  outline: 2px solid var(--color-principal);
-  outline-offset: 2px;
-}
-
-/* =========================================
-   RESUMEN DE RESULTADOS
-========================================= */
-
-#resumen {
-  min-height: 1.5rem;
-  margin-bottom: 1.25rem;
-  color: var(--color-secundario);
-  font-size: 0.9rem;
-}
-
-/* =========================================
-   CUADRÍCULA DINÁMICA
-========================================= */
-
+/* Cuadrícula de tarjetas (la llena catalogo.js) */
 #lista-productos {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
 }
 
-/* =========================================
-   TARJETAS DE PRODUCTOS
-========================================= */
+/* Mensaje de carga o "sin productos" ocupando todo el ancho */
+#lista-productos .estado {
+  grid-column: 1 / -1;
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+}
 
 .tarjeta-producto {
-  min-width: 0;
-  background-color: #ffffff;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 0;
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
 }
 
 .tarjeta-producto:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
 }
 
-.imagen-contenedor {
-  height: 260px;
-  background-color: var(--color-borde);
-  overflow: hidden;
-}
-
-.imagen-contenedor img {
+.tarjeta-producto img {
   width: 100%;
-  height: 100%;
+  height: 260px;
   object-fit: cover;
+  background: var(--color-borde);
 }
 
 .info-producto {
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  padding: 1.5rem;
 }
 
-.etiqueta-categoria {
-  font-size: 0.75rem;
+.etiqueta-linea {
+  margin-bottom: .4rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  letter-spacing: 1px;
   color: var(--color-acento);
-  font-weight: bold;
-  margin-bottom: 0.4rem;
 }
 
 .info-producto h3 {
-  font-size: 1.3rem;
-  color: var(--color-secundario);
-  margin-bottom: 0.6rem;
+  margin-bottom: .6rem;
 }
 
 .descripcion {
-  font-size: 0.92rem;
-  color: var(--color-texto);
-  margin-bottom: 1rem;
-  flex-grow: 1;
+  flex-grow: 1; /* empuja precio y botón al fondo para que las tarjetas queden parejas */
+  font-size: .92rem;
 }
 
-/* Detalles técnicos */
-
-.detalles-tecnicos {
-  font-size: 0.85rem;
-  color: #555;
-  background-color: var(--color-fondo);
-  padding: 0.8rem;
-  border-radius: 4px;
+.detalles {
   margin-bottom: 1.2rem;
+  padding: .8rem;
+  border-radius: 8px;
+  background: var(--color-fondo);
+  font-size: .85rem;
 }
 
-.detalles-tecnicos li {
-  margin-bottom: 0.25rem;
-}
-
-.detalles-tecnicos li:last-child {
-  margin-bottom: 0;
-}
-
-/* Precio */
-
-.precio {
-  font-size: 1.2rem;
-  font-weight: 600;
+/* Botón de un producto agotado: se ve apagado y no se puede usar */
+.boton[aria-disabled="true"] {
+  background: var(--color-piedra);
+  border-color: var(--color-piedra);
   color: var(--color-secundario);
-  margin-bottom: 1rem;
-}
-
-/* Botón para pedir */
-
-.boton-accion {
-  display: block;
-  text-align: center;
-  background-color: var(--color-principal);
-  color: #ffffff;
-  padding: 0.7rem 1rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
-
-.boton-accion:hover {
-  background-color: var(--color-secundario);
-}
-
-/* Botón cuando el producto está agotado */
-
-.boton-desactivado {
-  background-color: #888888;
-  color: #ffffff;
-  cursor: not-allowed;
   pointer-events: none;
 }
 
-/* =========================================
-   ESTADOS DEL CATÁLOGO
-========================================= */
-
-.estado-catalogo {
-  grid-column: 1 / -1;
-  padding: 2rem 1rem;
-  text-align: center;
-  background-color: #ffffff;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
-}
-
-.estado-carga {
-  color: var(--color-secundario);
-}
-
-.estado-error {
-  color: var(--color-acento);
-}
-
-.estado-vacio {
-  color: #666666;
-}
-
-/* =========================================
-   PEDIDOS PERSONALIZADOS
-========================================= */
-
+/* Pedido personalizado */
 #pedido-personalizado {
-  width: 100%;
   margin-top: 2rem;
-  background-color: var(--color-secundario);
+  padding: 2rem 1.5rem;
+  border-radius: var(--radio);
+  background: var(--color-secundario);
   color: var(--color-fondo);
-  border: none;
-  justify-content: center;
-}
-
-#texto-pedido {
   text-align: center;
-  justify-content: center;
-  align-items: center;
 }
 
-#texto-pedido h3 {
-  color: var(--color-borde);
-  font-size: 1.4rem;
-}
-
-#texto-pedido p {
-  color: var(--color-fondo);
-  margin: 1rem 0 1.5rem 0;
-}
-
-#contacto-personalizado {
-  display: inline-block;
-  background-color: var(--color-acento);
-  color: #ffffff;
-  padding: 0.7rem 1.4rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
-
-#contacto-personalizado:hover {
-  background-color: var(--color-principal);
-}
-
-/* =========================================
-   PIE DE PÁGINA
-========================================= */
-
-#pie {
-  font-family: 'Poppins', Arial, sans-serif;
-  line-height: 1.7;
-  background: var(--color-texto);
-  color: var(--color-fondo);
-}
-
-#pie-interior {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 1.5rem 2rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 2rem;
-}
-
-#logo-pie {
-  margin: 0 0 .5rem;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 2rem;
-  letter-spacing: .12em;
-}
-
-#marca-pie p:last-child {
-  margin: 0;
-  font-size: .9rem;
+#pedido-personalizado h3 {
   color: var(--color-borde);
 }
 
-#enlaces-pie {
-  display: grid;
-  gap: .4rem;
+#pedido-personalizado p {
+  max-width: 640px;
+  margin: 0 auto 1.5rem;
 }
 
-#enlaces-pie a,
-#contacto-pie a {
-  text-decoration: none;
-  color: var(--color-fondo);
-}
-
-#enlaces-pie a:hover,
-#contacto-pie a:hover {
-  color: var(--color-principal);
-}
-
-#contacto-pie {
-  display: grid;
-  gap: .4rem;
-  font-style: normal;
-  font-size: .95rem;
-  overflow-wrap: anywhere;
-}
-
-#derechos {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--color-secundario);
-  font-size: .8rem;
-  color: var(--color-borde);
-}
-
-/* =========================================
-   RESPONSIVE: TABLET
-========================================= */
-
+/* Tabletas y móviles */
 @media (max-width: 1000px) {
   #lista-productos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  #filtros {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .campo-filtro:first-child {
-    grid-column: 1 / -1;
-  }
 }
-
-/* =========================================
-   RESPONSIVE: TABLET Y PANTALLAS MEDIANAS
-========================================= */
-
-@media (max-width: 900px) {
-  #barra {
-    justify-content: center;
-    text-align: center;
-  }
-
-  #marca {
-    align-items: center;
-  }
-
-  #barra nav {
-    width: 100%;
-  }
-
-  #menu {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: .5rem;
-  }
-
-  #menu a {
-    font-size: .85rem;
-  }
-
-  #pie-interior {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =========================================
-   RESPONSIVE: MÓVILES
-========================================= */
 
 @media (max-width: 580px) {
-  #presentacion {
-    padding: 2.5rem 1rem;
-  }
-
-  #presentacion h1 {
-    font-size: 1.7rem;
-  }
-
-  #presentacion p {
-    font-size: .95rem;
-  }
-
   #lista-productos {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  #filtros {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
-  .campo-filtro:first-child {
-    grid-column: auto;
-  }
-
-  #titulo-productos {
-    font-size: 1.4rem;
-  }
-
-  .imagen-contenedor {
+  .tarjeta-producto img {
     height: 240px;
-  }
-
-  #pie-interior {
-    padding: 2rem 1rem;
-  }
-
-  #derechos {
-    padding: 1rem;
-  }
-}
-
-/* =========================================
-   RESPONSIVE: PANTALLAS MUY PEQUEÑAS
-========================================= */
-
-@media (max-width: 375px) {
-  .contenedor {
-    width: 92%;
-  }
-
-  #barra {
-    padding: 1rem;
-  }
-
-  #menu {
-    gap: .35rem;
-  }
-
-  #menu a {
-    font-size: .78rem;
-  }
-
-  .info-producto {
-    padding: 1.1rem;
-  }
-
-  #filtros {
-    gap: .8rem;
   }
 }
