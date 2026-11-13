@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión | MIAH</title>
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+
+  <body>
+
+    <!-- Encabezado -->
+    <header id="encabezado">
+      <div id="barra">
+        <div id="marca">
+          <a href="index.html" aria-label="MIAH, ir al inicio" id="logo">MIAH</a>
+          <span id="eslogan">Recycled plastic and natural fibers</span>
+        </div>
+
+        <nav aria-label="Navegación principal">
+          <ul id="menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+
+      <!-- Presentación -->
+      <section id="presentacion">
+        <div class="contenedor">
+          <p class="sobretitulo">Tu cuenta MIAH</p>
+          <h1>Accede o crea tu cuenta</h1>
+          <p>
+            Con una cuenta puedes hacer pedidos, seguir su estado y cancelar los que aún estén pendientes.
+          </p>
+        </div>
+      </section>
+
+      <!-- Formularios -->
+      <section class="contenedor" id="acceso">
+
+        <!-- Iniciar sesión -->
+        <div class="panel-formulario" id="panel-login">
+          <h2 id="titulo-login">Iniciar sesión</h2>
+          <form id="form-login" aria-labelledby="titulo-login" novalidate>
+            <div class="campo">
+              <label for="login-correo">Correo electrónico</label>
+              <input type="email" id="login-correo" name="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email" required>
+            </div>
+            <div class="campo">
+              <label for="login-clave">Contraseña</label>
+              <input type="password" id="login-clave" name="clave" placeholder="Tu contraseña" autocomplete="current-password" required minlength="6">
+            </div>
+            <button type="submit" class="boton boton-principal">Entrar</button>
+          </form>
+        </div>
+
+        <!-- Crear cuenta -->
+        <div class="panel-formulario" id="panel-registro">
+          <h2 id="titulo-registro">Crear cuenta</h2>
+          <form id="form-registro" aria-labelledby="titulo-registro" novalidate>
+            <div class="campo">
+              <label for="registro-nombre">Nombre</label>
+              <input type="text" id="registro-nombre" name="nombre" placeholder="Tu nombre completo" autocomplete="name" required minlength="2" maxlength="60">
+            </div>
+            <div class="campo">
+              <label for="registro-correo">Correo electrónico</label>
+              <input type="email" id="registro-correo" name="correo" placeholder="tucorreo@ejemplo.com" autocomplete="email" required>
+            </div>
+            <div class="campo">
+              <label for="registro-clave">Contraseña</label>
+              <input type="password" id="registro-clave" name="clave" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required minlength="6">
+            </div>
+            <div class="campo">
+              <label for="registro-clave2">Repetir contraseña</label>
+              <input type="password" id="registro-clave2" name="clave2" placeholder="Escríbela otra vez" autocomplete="new-password" required minlength="6">
+            </div>
+            <button type="submit" class="boton boton-principal">Crear cuenta</button>
+          </form>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer id="pie">
+      <div id="pie-interior">
+        <div id="marca-pie">
+          <p id="logo-pie">MIAH</p>
+          <p>Recycled plastic and natural fibers. Accesorios artesanales hechos en El Salvador.</p>
+        </div>
+
+        <nav aria-label="Enlaces del pie de página">
+          <ul id="enlaces-pie">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </nav>
+        <address id="contacto-pie">
+          <a href="mailto:miahandbagselsalvador@gmail.com">miahandbagselsalvador@gmail.com</a>
+          <a href="tel:+50376826089">+503 7682 6089</a>
+          <a href="https://www.instagram.com/miahandbagssv/" target="_blank" rel="noopener">@miahandbagssv</a>
+        </address>
+      </div>
+      <p id="derechos">© MIAH · Mia Handbags SV</p>
+    </footer>
+
+    <script type="module" src="js/ui/nav.js"></script>
+    <script type="module" src="js/pages/login.js"></script>
+
+  </body>
+</html>

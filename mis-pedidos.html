@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis pedidos | MIAH</title>
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+
+  <body>
+
+    <!-- Encabezado -->
+    <header id="encabezado">
+      <div id="barra">
+        <div id="marca">
+          <a href="index.html" aria-label="MIAH, ir al inicio" id="logo">MIAH</a>
+          <span id="eslogan">Recycled plastic and natural fibers</span>
+        </div>
+
+        <nav aria-label="Navegación principal">
+          <ul id="menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+
+      <!-- Presentación -->
+      <section id="presentacion">
+        <div class="contenedor">
+          <p class="sobretitulo">Tu cuenta</p>
+          <h1>Mis pedidos</h1>
+          <p>
+            Consulta el estado de tus pedidos. Puedes cancelar los que todavía estén pendientes.
+          </p>
+        </div>
+      </section>
+
+      <!-- Pedidos -->
+      <section class="contenedor" id="pedidos" aria-labelledby="titulo-pedidos">
+        <h2 id="titulo-pedidos">Historial de pedidos</h2>
+
+        <form id="filtros" role="search">
+          <div class="campo">
+            <label for="filtro-estado">Estado</label>
+            <select id="filtro-estado">
+              <option value="">Todos</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="confirmado">Confirmado</option>
+              <option value="entregado">Entregado</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+        </form>
+
+        <p id="resumen" aria-live="polite"></p>
+
+        <!-- Mensajes de carga, error o "sin datos" (fuera de la tabla) -->
+        <div id="estado-pedidos"></div>
+
+        <div class="tabla-contenedor">
+          <table id="tabla-pedidos">
+            <caption class="solo-lectores">Lista de tus pedidos</caption>
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Nota</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <!-- Aquí JavaScript dibuja las filas -->
+            <tbody id="cuerpo-tabla"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer id="pie">
+      <div id="pie-interior">
+        <div id="marca-pie">
+          <p id="logo-pie">MIAH</p>
+          <p>Recycled plastic and natural fibers. Accesorios artesanales hechos en El Salvador.</p>
+        </div>
+
+        <nav aria-label="Enlaces del pie de página">
+          <ul id="enlaces-pie">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </nav>
+        <address id="contacto-pie">
+          <a href="mailto:miahandbagselsalvador@gmail.com">miahandbagselsalvador@gmail.com</a>
+          <a href="tel:+50376826089">+503 7682 6089</a>
+          <a href="https://www.instagram.com/miahandbagssv/" target="_blank" rel="noopener">@miahandbagssv</a>
+        </address>
+      </div>
+      <p id="derechos">© MIAH · Mia Handbags SV</p>
+    </footer>
+
+    <script type="module" src="js/ui/nav.js"></script>
+    <script type="module" src="js/pages/mis-pedidos.js"></script>
+
+  </body>
+</html>
