@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap");
+
+/* Estilos de las páginas de la aplicación: login, pedido, mis pedidos y admin.
+   La base (variables, encabezado, presentación y pie) es la misma de catalogo.css
+   para que todo el sitio se vea igual. */
+
 /* Variables */
 :root {
   --color-principal: #C77B31;
@@ -6,14 +12,534 @@
   --color-acento: #6D2F3D;
   --color-fondo: #F4EFE6;
   --color-borde: #D9CBB8;
+  --color-exito: #3E6B48;
+  --color-blanco: #FFFDF9;
+  --radio: 10px;
 }
 
-.estado { padding: 2rem 1rem; text-align: center; color: var(--color-secundario); }
-#avisos { position: fixed; right: 1rem; bottom: 1rem; display: grid; gap: .5rem; z-index: 50; }
-.aviso { padding: .75rem 1rem; border-radius: 8px; color: #fff; box-shadow: 0 4px 12px rgb(0 0 0 /
-.15); }
-.aviso-exito { background: #3E6B48; }
+/* Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Lo que JavaScript oculta con "hidden" debe quedar oculto aunque tenga otro display */
+[hidden] {
+  display: none !important;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 2px;
+}
+
+/* Texto solo para lectores de pantalla (ej. el caption de las tablas) */
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Encabezado */
+#encabezado {
+  font-family: 'Poppins', Arial, sans-serif;
+  line-height: 1.7;
+  background: var(--color-texto);
+  border-bottom: 1px solid var(--color-secundario);
+}
+
+#barra {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 2rem;
+}
+
+#marca {
+  display: flex;
+  flex-direction: column;
+}
+
+#logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: .12em;
+  color: var(--color-fondo);
+  line-height: 1;
+}
+
+#eslogan {
+  margin-top: .3rem;
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-borde);
+}
+
+#menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.75rem;
+}
+
+#menu a {
+  display: inline-block;
+  padding: .35rem 0;
+  color: var(--color-fondo);
+  font-size: .95rem;
+  border-bottom: 2px solid transparent;
+}
+
+#menu a:hover,
+#menu a[aria-current="page"] {
+  border-bottom-color: var(--color-principal);
+}
+
+/* Presentación */
+#presentacion {
+  background-color: var(--color-secundario);
+  color: var(--color-fondo);
+  text-align: center;
+  padding: 3rem 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.contenedor {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sobretitulo {
+  font-size: .75rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-borde);
+}
+
+#presentacion h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.4rem;
+  margin-bottom: .6rem;
+  color: var(--color-borde);
+}
+
+#presentacion p:last-child {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+main h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.8rem;
+  color: var(--color-secundario);
+  margin-bottom: 1rem;
+}
+
+main > section {
+  margin-bottom: 3rem;
+}
+
+/* Paneles y formularios */
+.panel-formulario {
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  padding: 1.75rem;
+}
+
+.panel-formulario form {
+  display: grid;
+  gap: 1rem;
+}
+
+.campo {
+  display: grid;
+  gap: .35rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: .9rem;
+  color: var(--color-secundario);
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  width: 100%;
+  padding: .6rem .75rem;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--color-texto);
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Campo inválido: solo se marca después de que el usuario lo tocó */
+input:user-invalid,
+textarea:user-invalid {
+  border-color: var(--color-acento);
+}
+
+/* Botones */
+.boton {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  padding: .6rem 1.2rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.boton-principal {
+  background: var(--color-principal);
+  color: #fff;
+}
+
+.boton-principal:hover {
+  background: var(--color-secundario);
+}
+
+.boton-claro {
+  background: transparent;
+  border-color: var(--color-secundario);
+  color: var(--color-secundario);
+}
+
+.boton-peligro {
+  background: transparent;
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+}
+
+.boton-peligro:hover {
+  background: var(--color-acento);
+  color: #fff;
+}
+
+.boton:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+/* Login: los dos formularios lado a lado */
+#acceso {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+/* Pedido: ficha del producto + formulario */
+#pedido {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.ficha-producto {
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+
+.ficha-producto img {
+  aspect-ratio: 4 / 3;
+}
+
+.ficha-producto h2,
+.ficha-producto p {
+  padding: 0 1.25rem;
+}
+
+.ficha-producto h2 {
+  margin: 1rem 0 .25rem;
+}
+
+.ficha-producto p:last-child {
+  padding-bottom: 1.25rem;
+}
+
+.precio {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-principal);
+}
+
+#resumen-total {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+#total {
+  color: var(--color-principal);
+}
+
+/* Filtros sobre las tablas */
+#filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+#filtros .campo {
+  flex: 1 1 180px;
+  max-width: 320px;
+}
+
+#resumen {
+  font-size: .9rem;
+  color: var(--color-secundario);
+  margin-bottom: .75rem;
+}
+
+/* Tablas */
+.tabla-contenedor {
+  overflow-x: auto; /* en móvil la tabla se desliza en vez de romper la página */
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .92rem;
+}
+
+th,
+td {
+  padding: .7rem .9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde);
+  vertical-align: middle;
+}
+
+th {
+  background: var(--color-secundario);
+  color: var(--color-fondo);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+  background: #FAF6F0;
+}
+
+td .boton {
+  padding: .3rem .8rem;
+  font-size: .85rem;
+  margin: .15rem .3rem .15rem 0;
+}
+
+/* Insignias de estado del pedido */
+.insignia {
+  display: inline-block;
+  padding: .15rem .65rem;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.insignia-pendiente { background: #F3E3C7; color: #7A4B12; }
+.insignia-confirmado { background: #DCE8F3; color: #1F4A6E; }
+.insignia-entregado { background: #DDEBDF; color: var(--color-exito); }
+.insignia-cancelado { background: #F1DEE2; color: var(--color-acento); }
+
+/* Indicadores */
+#lista-indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.indicador {
+  background: var(--color-blanco);
+  border: 1px solid var(--color-borde);
+  border-left: 4px solid var(--color-principal);
+  border-radius: var(--radio);
+  padding: 1rem;
+  display: grid;
+  gap: .25rem;
+}
+
+.indicador-etiqueta {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--color-secundario);
+}
+
+.indicador-valor {
+  font-size: 1.4rem;
+  overflow-wrap: anywhere;
+}
+
+/* Estados: cargando, sin datos o error */
+.estado {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-secundario);
+}
+
+.estado a {
+  color: var(--color-principal);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* Avisos flotantes (los crea ui.js) */
+#avisos {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  gap: .5rem;
+  z-index: 50;
+  max-width: min(360px, calc(100% - 2rem));
+}
+
+.aviso {
+  padding: .75rem 1rem;
+  border-radius: 8px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / .15);
+}
+
+.aviso-exito { background: var(--color-exito); }
 .aviso-error { background: var(--color-acento); }
 .aviso-info { background: var(--color-secundario); }
-.insignia-pendiente { background: #F3E3C7; } /* una por estado */
-.tabla-contenedor { overflow-x: auto; }
+
+/* Pie de página */
+#pie {
+  font-family: 'Poppins', Arial, sans-serif;
+  line-height: 1.7;
+  background: var(--color-texto);
+  color: var(--color-fondo);
+}
+
+#pie-interior {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 2rem;
+}
+
+#logo-pie {
+  margin: 0 0 .5rem;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: .12em;
+}
+
+#marca-pie p:last-child {
+  font-size: .9rem;
+  color: var(--color-borde);
+}
+
+#enlaces-pie,
+#contacto-pie {
+  display: grid;
+  gap: .4rem;
+  font-style: normal;
+  font-size: .95rem;
+  overflow-wrap: anywhere;
+}
+
+#enlaces-pie a:hover,
+#contacto-pie a:hover {
+  color: var(--color-principal);
+}
+
+#derechos {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--color-secundario);
+  font-size: .8rem;
+  color: var(--color-borde);
+}
+
+/* Tabletas y móviles */
+@media (max-width: 900px) {
+  #barra {
+    justify-content: center;
+    text-align: center;
+  }
+
+  #marca {
+    align-items: center;
+  }
+
+  #menu {
+    justify-content: center;
+    gap: .25rem 1rem;
+  }
+
+  #menu a {
+    font-size: .85rem;
+  }
+
+  #acceso,
+  #pedido,
+  #pie-interior {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 580px) {
+  #presentacion h1 {
+    font-size: 1.9rem;
+  }
+
+  .panel-formulario {
+    padding: 1.25rem;
+  }
+}

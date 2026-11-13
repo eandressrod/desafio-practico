@@ -1,7 +1,9 @@
 // js/pages/mis-pedidos.js
 import { exigirSesion } from '../services/auth.js';
 import { listarMisPedidos, cancelarPedido } from '../services/pedidos.js';
-import { mostrarCarga, mostrarVacio, mostrarAviso, botonOcupado, confirmar } from '../ui/ui.js';
+import {
+    mostrarCarga, mostrarVacio, mostrarAviso, botonOcupado, confirmar, crearCelda, crearInsignia,
+} from '../ui/ui.js';
 import { formatearPrecio, formatearFecha } from '../utils/formato.js';
 
 await exigirSesion(); // sin sesión → login.html
@@ -36,27 +38,11 @@ function aplicarFiltros() {
     return pedidos.filter((p) => estado === '' || p.estado === estado);
 }
 
-// Patrón 2: dibujar con el DOM (textContent, nunca innerHTML)
-function crearCelda(texto) {
-    const celda = document.createElement('td');
-    celda.textContent = texto;
-    return celda;
-}
-
-function crearInsignia(estado) {
-    const insignia = document.createElement('span');
-    insignia.className = `insignia insignia-${estado}`;
-    insignia.textContent = estado;
-    return insignia;
-}
-
+// Patrón 2: dibujar con el DOM (crearCelda y crearInsignia vienen de ui.js)
 function crearFila(pedido) {
     const fila = document.createElement('tr');
 
-    const celdaEstado = document.createElement('td');
-    celdaEstado.append(crearInsignia(pedido.estado));
-
-    const celdaAcciones = document.createElement('td');
+    const celdaAcciones = crearCelda('');
     if (pedido.estado === 'pendiente') { // solo los pendientes se pueden cancelar
         const boton = document.createElement('button');
         boton.type = 'button';
@@ -72,7 +58,7 @@ function crearFila(pedido) {
         crearCelda(pedido.productoNombre),
         crearCelda(pedido.cantidad),
         crearCelda(formatearPrecio(pedido.total)),
-        celdaEstado,
+        crearCelda(crearInsignia(pedido.estado)),
         crearCelda(pedido.nota || '—'),
         celdaAcciones,
     );

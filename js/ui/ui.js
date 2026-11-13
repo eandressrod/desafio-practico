@@ -42,3 +42,18 @@ export function confirmar(mensaje) {
     // sin que las páginas cambien, porque siguen recibiendo una promesa.
     return Promise.resolve(window.confirm(mensaje));
 }
+
+// Celda de tabla con texto (textContent: nunca interpreta HTML).
+export function crearCelda(contenido) {
+    const celda = document.createElement('td');
+    celda.append(contenido); // acepta texto o un elemento (insignia, botones…)
+    return celda;
+}
+
+// Etiqueta de color para el estado de un pedido (pendiente, confirmado…).
+export function crearInsignia(estado) {
+    const insignia = document.createElement('span');
+    insignia.className = `insignia insignia-${estado}`;
+    insignia.textContent = estado;
+    return insignia;
+}
