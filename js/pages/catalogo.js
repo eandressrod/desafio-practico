@@ -390,15 +390,19 @@ function pintarProductos() {
     resumen.textContent =
         `${visibles.length} de ${productos.length} productos`;
 
-    // Si no hay coincidencias.
-    if (visibles.length === 0) {
+// Si todavía no hay productos disponibles.
+if (productos.length === 0) {
+  mostrarVacioCatalogo('Aún no hay productos.');
+  return;
+}
 
-        mostrarVacioCatalogo(
-            'Ningún bolso coincide con tu búsqueda.'
-        );
-
-        return;
-    }
+// Si hay productos, pero ninguno coincide con los filtros.
+if (visibles.length === 0) {
+  mostrarVacioCatalogo(
+    'Ningún bolso coincide con tu búsqueda.'
+  );
+  return;
+}
 
     // Construir tarjetas con createElement.
     const tarjetas = visibles.map(crearTarjeta);
